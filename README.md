@@ -29,7 +29,28 @@ Open http://localhost:5173 in the latest Google Chrome. Click **Start listening*
 
 `npm run setup` runs `uv sync`, installs npm dependencies, and trains the separate synthetic WSP toy model. The conversation engine and CDS Hooks service do not depend on the WSP experiment. The WSP toy network is a separate synthetic chest-pain urgency classifier; its results do not validate the disease-specific conversation prompts.
 
-## Tests
+## Deploy on Render
+
+The root `render.yaml` deploys a single free Python web service. FastAPI serves
+the frontend, orb image, evidence page, and API from the same HTTPS origin; Node
+and Vite are only needed for local frontend development.
+
+1. Push these deployment changes to GitHub.
+2. In Render, choose **New > Blueprint**, connect this repository, and select `main`.
+3. Apply the Blueprint and wait for `/health` to pass, then open the service URL.
+4. Optionally add `OPENAI_API_KEY` and `LLM_MODEL` in the service's Environment
+   settings, using a model ID available to your account. Without a key the demo
+   uses its heuristic judge. Never commit API keys.
+
+For manual service creation, select Python, use `uv sync --frozen` as the build
+command and `uv run uvicorn server:app --host 0.0.0.0 --port $PORT --workers 1`
+as the start command. Set the health check path to `/health`.
+
+Keep one worker and one instance because sessions live in process memory. Visits
+are lost on restarts/redeploys. Free services can sleep when idle. Use synthetic
+demo data only; this deployment does not add authentication or clinical readiness.
+
+## Run tests
 
 ```bash
 npm test

@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from engine import Engine, Session, load_profiles, llm_judge, build_note, match_fhir_conditions
@@ -25,6 +26,24 @@ app = FastAPI(
     version=APP_VERSION,
     description="Synthetic hackathon prototype; not for clinical use.",
 )
+
+WEB_ROOT = Path(__file__).resolve().parent
+
+
+@app.get("/", include_in_schema=False)
+@app.get("/index.html", include_in_schema=False)
+def homepage():
+    return FileResponse(WEB_ROOT / "index.html")
+
+
+@app.get("/evals.html", include_in_schema=False)
+def evidence_page():
+    return FileResponse(WEB_ROOT / "evals.html")
+
+
+@app.get("/blob.png", include_in_schema=False)
+def orb_image():
+    return FileResponse(WEB_ROOT / "blob.png")
 
 
 class TurnRequest(BaseModel):

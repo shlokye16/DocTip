@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: sachacks-track4
+    runtime: python
+    plan: free
+    buildCommand: uv sync --frozen
+    startCommand: uv run uvicorn server:app --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: LLM_TIMEOUT_SECONDS
+        value: "8"

@@ -73,8 +73,8 @@
     <h2 id="how-heading">How it works</h2>
     <div class="flow">
       <article class="card"><p class="step">01 · DURING THE VISIT</p><h3>A quiet reminder</h3><p>With consent, the browser transcribes the conversation. A configured condition mention can trigger a short on-screen tip and soft beep, up to three tips per visit.</p></article>
-      <article class="card"><p class="step">02 · AFTER THE VISIT</p><h3>A few questions</h3><p>The clinician ends the visit, then answers up to three reflection questions about findings, the plan, and consistency across patients.</p></article>
-      <article class="card"><p class="step">03 · AT THE END</p><h3>A reasoning note</h3><p>The app records the clinician's answers for review. An AI judge checks for specific reasoning; a local fallback is used if the API is unavailable.</p></article>
+      <article class="card"><p class="step">02 · AFTER THE VISIT</p><h3>Two quick choices</h3><p>Select what guided the assessment and whether the plan would stay the same for someone with the same findings and a different background.</p></article>
+      <article class="card"><p class="step">03 · AT THE END</p><h3>A reasoning note</h3><p>Save both selections in the encounter note. The checklist records the clinician's reflection without scoring their choices.</p></article>
     </div>
   </section>
 
@@ -103,8 +103,8 @@
     <h2 id="evidence-heading">What the evidence means</h2>
     <p class="sub">Working software is different from proof of better clinical care.</p>
     <div class="evidence">
-      <article class="card"><h3>What we have checked</h3><p>Offline software tests cover condition matching, reflection flows, reasoning notes, and demo API cards across all seven profiles. A separate saved judge evaluation contains 12 synthetic examples from the original three profiles. A separate weight-edit experiment uses a synthetic chest-pain classifier.</p></article>
-      <article class="card"><h3>What we have not shown</h3><p>We have not demonstrated reduced clinician bias, better diagnoses, or better patient outcomes. The four new profiles have software tests but no saved LLM judge benchmark yet. The toy classifier results do not validate these reflection prompts.</p></article>
+      <article class="card"><h3>10 of 12 written answers classified correctly</h3><p>In the earlier free-text test, the judge agreed with the expected rating on 4 of 4 chest-pain answers, 3 of 4 sickle-cell answers, and 3 of 4 preeclampsia answers. Both errors were specific answers marked insufficient. The other four conditions have no comparable judge scores. This benchmark predates the checklist.</p></article>
+      <article class="card"><h3>20.1 percentage points → 0</h3><p>In a separate toy chest-pain model, changing only sex or insurance changed the predicted urgency score. Across four synthetic populations, the average of the larger of those two gaps fell from 20.1 points to 0 after editing the model. Accuracy against the synthetic labels rose from 86.4% to 98.7%. Patient outcomes and clinician bias were outside this experiment.</p></article>
     </div>
     <div class="notice"><strong>A reflection aid, not a medical decision.</strong> Profile wording is draft material requiring clinician review. The app does not diagnose, recommend treatment, or reliably distinguish speakers. It follows one selected condition per encounter; mentions may be hypothetical, historical, or ruled out. Use synthetic data only.</div>
   </section>

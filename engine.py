@@ -168,6 +168,7 @@ class Session:
     closed: bool = False
     phase: str = "visit"                           # visit -> debrief -> (closed)
     tips: list = field(default_factory=list)       # tip ids already shown this visit
+    quick_reflection: bool = False
 
 
 class Engine:
@@ -186,7 +187,7 @@ class Engine:
             return self._resp(s, "Added to the note.")
         return self._visit_turn(s, text) if s.phase == "visit" else self._debrief_turn(s, text)
 
-    def end_visit(self, s):
+    def end_visit(self, s, quick=False):
         """Visit is over: start the longer conversation (or close quietly if nothing was flagged)."""
         if s.closed or s.phase != "visit":
             return self._resp(s, None)
@@ -194,6 +195,14 @@ class Engine:
         if not prof:
             s.closed, s.phase = True, "closed"
             return self._resp(s, "Visit ended. Nothing was flagged.")
+        if quick:
+            s.quick_reflection = True
+            s.phase = "debrief"
+            s.queue = [{"text": q, "options": options} for q, options in [
+                ("What guided your assessment?", prof["reflection_choices"] + ["Other", "Still assessing"]),
+                ("Same findings, different background: same plan?", ["Yes", "I would reconsider", "Unsure"])
+            ]]
+            return self._resp(s, "Quick reflection")
         found = [c for c in prof.get("concern_patterns", []) if c["id"] in s.concerns]
         s.queue, s.qi, s.phase = self._build_queue(prof, found), 0, "debrief"
         return self._resp(s, f"Now that the visit is over, a few questions about the {prof['name'][0].lower() + prof['name'][1:]} plan. "
@@ -290,6 +299,7 @@ class Engine:
             "question_index": min(s.qi + 1, len(s.queue)) if prof else 0,
             "total_questions": len(s.queue),
             "done": s.closed,
+            "reflection": s.queue if s.quick_reflection and not s.closed else None,
             "note": build_note(s, prof)["text"] if (prof and s.closed) else None,
         }
 
@@ -310,8 +320,9 @@ def build_note(s, prof):
     lines.append("")
     for i, a in enumerate(s.qa, 1):
         lines += [f"Q{i}: {a['question']}",
-                  f"A{i}: {a['answer']}",
-                  f"   (answer judged {'specific' if a['specific'] else 'brief or non-specific'})"]
+                  f"A{i}: {a['answer']}"]
+        if "specific" in a:
+            lines.append(f"   (answer judged {'specific' if a['specific'] else 'brief or non-specific'})")
     if s.addenda:
         lines += ["", "Addenda after the check:"] + [f"- {t}" for t in s.addenda]
     lines += ["", f"Reference: {prof.get('guideline_note', '')}",

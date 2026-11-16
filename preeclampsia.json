@@ -1,5 +1,6 @@
 {
   "id": "preeclampsia",
+  "reflection_choices": ["Reported symptoms","Blood pressure trend","Lab findings"],
   "name": "Preeclampsia",
   "priority": 1,
   "triggers": [

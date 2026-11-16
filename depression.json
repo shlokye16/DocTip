@@ -1,5 +1,6 @@
 {
   "id": "depression",
+  "reflection_choices": ["Patient's description","Changes in daily functioning","Safety assessment"],
   "name": "Depression",
   "priority": 1,
   "triggers": [

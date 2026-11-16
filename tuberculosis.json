@@ -1,5 +1,6 @@
 {
   "id": "tuberculosis",
+  "reflection_choices": ["Exposure history","Symptoms","Test or imaging findings"],
   "name": "Tuberculosis",
   "priority": 1,
   "triggers": [

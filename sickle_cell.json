@@ -1,5 +1,6 @@
 {
   "id": "sickle_cell",
+  "reflection_choices": ["Patient-reported pain","Individual pain plan","Prior treatment response"],
   "name": "Sickle cell disease",
   "triggers": [
     "sickle cell",

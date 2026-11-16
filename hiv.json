@@ -1,5 +1,6 @@
 {
   "id": "hiv",
+  "reflection_choices": ["Exposure history","Testing history","Patient priorities"],
   "name": "HIV / AIDS",
   "priority": 1,
   "triggers": [

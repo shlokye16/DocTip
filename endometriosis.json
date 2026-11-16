@@ -1,5 +1,6 @@
 {
   "id": "endometriosis",
+  "reflection_choices": ["Pain timeline","Impact on daily life","Prior examination or imaging"],
   "name": "Endometriosis",
   "priority": 1,
   "triggers": [

@@ -390,6 +390,9 @@
         width: 100%
       }
     }
+    #answerForm fieldset { margin: 16px 0; padding: 12px; border: 1px solid #dce5f4; border-radius: 12px; }
+    #answerForm legend { font-weight: 650; }
+    #answerForm label { display: inline-flex; align-items: center; gap: 6px; padding: 8px; cursor: pointer; }
   </style>
 </head>
 
@@ -408,7 +411,7 @@
       <div class="feed" id="feed">
         <div class="bubble system">
           <div class="who">ASSISTANT</div>I’ll listen during the visit and show a quick tip (with a soft beep) when a
-          configured condition comes up. When the visit ends, press End visit and we’ll talk it through.
+          configured condition comes up. Press End visit for a two-question reflection.
         </div>
       </div>
     </section>
@@ -419,9 +422,9 @@
       <button class="btn" id="clearBtn">New encounter</button>
       <div class="meter"><span class="dot"></span><span id="micState">Microphone off</span></div>
     </div>
-    <form class="answer hidden" id="answerForm">
-      <input id="answerInput" placeholder="Type your answer (or just speak)" autocomplete="off">
-      <button class="btn primary">Send</button>
+    <form class="hidden" id="answerForm">
+      <div id="choices"></div>
+      <button class="btn primary" id="saveReflection">Save reflection</button>
     </form>
     <p class="consent"><strong>Before starting:</strong> obtain appropriate consent from everyone being
       recorded/listened to and follow your institution’s privacy policies. This browser demo uses speech recognition to
@@ -476,7 +479,7 @@
     }
     function processTranscript(text) {
       const clean = (text || '').trim();
-      if (!clean || clean === lastSent || !sessionId) return;
+      if (!clean || clean === lastSent || !sessionId || phase !== 'visit') return;
       lastSent = clean;
       transcriptQueue.push(clean);
       drainQueue();
@@ -521,22 +524,49 @@
     async function endVisit() {
       if (!sessionId || phase !== 'visit') return;
       $('endBtn').disabled = true;
+      $('clearBtn').disabled = true;
+      phase = 'ending';
+      stop('Finishing visit…');
+      $('startBtn').classList.add('hidden');
       clearTimeout(tipTimer);
       setMode(listening ? 'listening' : '');
       try {
-        const r = await fetch(`/api/sessions/${sessionId}/end`, { method: 'POST' });
+        while (requestBusy || transcriptQueue.length) await new Promise(resolve => setTimeout(resolve, 25));
+        const r = await fetch(`/api/sessions/${sessionId}/end?quick=true`, { method: 'POST' });
         if (!r.ok) throw new Error(`Could not end the visit (HTTP ${r.status}).`);
         const d = await r.json();
-        phase = d.phase === 'debrief' ? 'debrief' : 'visit';
+        phase = d.phase;
         $('endBtn').classList.add('hidden');
         $('panelLabel').textContent = 'DEBRIEF';
-        $('status').textContent = d.phase === 'debrief' ? 'Visit over. Answer by voice or type below.' : (d.reply || 'Visit ended.');
-        if (d.phase === 'debrief') $('answerForm').classList.remove('hidden');
-        if (d.reply) addBubble(d.phase === 'debrief' ? 'prompt' : 'system', d.phase === 'debrief' ? 'DEBRIEF' : 'ASSISTANT', d.reply);
+        $('status').textContent = d.reflection ? 'Visit ended. Choose one answer per question.' : d.reply;
+        if (d.reflection) {
+          $('choices').replaceChildren();
+          d.reflection.forEach(({text, options}, index) => {
+            const group = document.createElement('fieldset');
+            const legend = document.createElement('legend');
+            legend.textContent = text;
+            group.append(legend);
+            for (const option of options) {
+              const label = document.createElement('label');
+              const radio = document.createElement('input');
+              radio.type = 'radio';
+              radio.name = 'question' + index;
+              radio.value = option;
+              radio.required = true;
+              label.append(radio, option);
+              group.append(label);
+            }
+            $('choices').append(group);
+          });
+          $('answerForm').classList.remove('hidden');
+          $('choices').querySelector('input').focus();
+        }
       } catch (e) {
+        phase = 'visit';
         addBubble('note', 'CONNECTION', e.message);
       } finally {
         $('endBtn').disabled = false;
+        $('clearBtn').disabled = false;
       }
     }
 
@@ -707,10 +737,26 @@
     $('stopBtn').addEventListener('click', () => stop());
     $('clearBtn').addEventListener('click', reset);
     $('endBtn').addEventListener('click', endVisit);
-    $('answerForm').addEventListener('submit', e => {
+    $('answerForm').addEventListener('submit', async e => {
       e.preventDefault();
-      processTranscript($('answerInput').value);
-      $('answerInput').value = '';
+      if ($('saveReflection').disabled) return;
+      const answers = [...new FormData(e.target).values()];
+      $('saveReflection').disabled = $('clearBtn').disabled = true;
+      try {
+        const response = await fetch(`/api/sessions/${sessionId}/reflection`, {
+          method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({answers})
+        });
+        if (!response.ok) throw new Error();
+        const note = await response.json();
+        phase = 'closed';
+        $('answerForm').classList.add('hidden');
+        $('status').textContent = 'Reflection saved.';
+        addBubble('note', 'REASONING NOTE', note.text);
+      } catch {
+        $('status').textContent = 'Could not save. Your selections are here to retry.';
+      } finally {
+        $('saveReflection').disabled = $('clearBtn').disabled = false;
+      }
     });
   </script>
 </body>

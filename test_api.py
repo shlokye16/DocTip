@@ -72,6 +72,25 @@ def test_session_flags_only_configured_conditions():
     assert deleted.status_code == 200
 
 
+def test_quick_reflection_records_selected_answers_once():
+    for condition in ['endometriosis', 'sickle cell', 'depression', 'heart disease',
+                      'tuberculosis', 'HIV', 'preeclampsia']:
+        sid = client.post('/api/sessions').json()['session_id']
+        path = f'/api/sessions/{sid}'
+        client.post(path + '/turn', json={'text': condition})
+        questions = client.post(path + '/end?quick=true').json()['reflection']
+        assert len(questions) == 2
+        assert client.post(path + '/reflection', json={'answers': []}).status_code == 422
+        answers = [questions[0]['options'][0], 'Unsure']
+        for _ in range(2):
+            saved = client.post(path + '/reflection', json={'answers': answers})
+            assert saved.status_code == 200
+        note = client.get(path + '/note').json()
+        assert [a['answer'] for a in note['json']['qa']] == answers
+        assert 'answer judged' not in note['text']
+        client.delete(path)
+
+
 if __name__ == '__main__':
     for name, fn in sorted(globals().items()):
         if name.startswith('test_'):

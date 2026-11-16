@@ -139,17 +139,42 @@ def session_turn(session_id: str, request: TurnRequest):
     session = SESSIONS.get(session_id)
     if session is None:
         raise HTTPException(status_code=404, detail="Session not found or expired.")
+    if session.quick_reflection and not session.closed:
+        raise HTTPException(409, "Use the reflection choices for this visit.")
     result = ENGINE.turn(session, request.text)
     return result
 
 
 @app.post("/api/sessions/{session_id}/end")
-def session_end(session_id: str):
+def session_end(session_id: str, quick: bool = False):
     """End the visit and start the longer debrief conversation."""
     session = SESSIONS.get(session_id)
     if session is None:
         raise HTTPException(status_code=404, detail="Session not found or expired.")
-    return ENGINE.end_visit(session)
+    return ENGINE.end_visit(session, quick=quick)
+
+
+class ReflectionAnswers(BaseModel):
+    answers: list[str]
+
+
+@app.post("/api/sessions/{session_id}/reflection")
+async def save_reflection(session_id: str, request: ReflectionAnswers):
+    session = SESSIONS.get(session_id)
+    if session is None:
+        raise HTTPException(404, "Session not found.")
+    if not session.quick_reflection:
+        raise HTTPException(409, "End the visit before saving a reflection.")
+    if len(request.answers) != len(session.queue) or any(
+        answer not in question["options"] for answer, question in zip(request.answers, session.queue)
+    ):
+        raise HTTPException(422, "Select one listed answer for each question.")
+    if session.closed and request.answers != [item["answer"] for item in session.qa]:
+        raise HTTPException(409, "Reflection already saved.")
+    session.qa = [{"question": question["text"], "answer": answer}
+                  for question, answer in zip(session.queue, request.answers)]
+    session.closed, session.phase = True, "closed"
+    return build_note(session, PROFILES[session.profile_id])
 
 
 @app.get("/api/sessions/{session_id}/note")

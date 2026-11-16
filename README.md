@@ -10,7 +10,8 @@ condition-specific debrief questions, a consistency check, and ICD-10 matching f
 CDS Hooks demo. Source links are included in the profiles. Depression coverage does
 not extend to every mental illness; cardiac coverage does not cover every heart disorder.
 The visit matcher follows a condition named in the conversation or a configured combination
-of clues across recent turns. A condition alone is silent. A matching concern can produce
+of clues across recent turns. A newly recognized condition can trigger its own tip.
+A specific concern takes priority when both match the same turn. A matching concern can produce
 one tip, once per condition and concern, up to three tips across the encounter. An explicit
 change of condition updates the topic used for the final reflection.
 Mention matching does not determine whether a condition is present, ruled out, or historical.

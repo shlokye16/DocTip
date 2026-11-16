@@ -302,6 +302,10 @@ class Engine:
                     s.tips.append(tip_id)
                     tip = c["tip"]
                     break
+            general_tip_id = (prof["id"], "profile")
+            if first and not matched and general_tip_id not in s.tips and prof.get("tip"):
+                s.tips.append(general_tip_id)
+                tip = prof["tip"]
         return self._resp(s, tip, just_flagged=first and tip is not None)
 
     def _debrief_turn(self, s, text):

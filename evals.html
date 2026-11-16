@@ -1,336 +1,739 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Evidence for the demo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ink:#172033; --muted:#566480; --paper:#f3f6fc; --surface:#fff; --line:#dce5f4;
-  --blue:#2f5fd0; --blue-soft:#eaf1ff; --amber:#ffb000; --amber-soft:#fff4d6; --amber-ink:#744900;
-  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
-  --body:"Public Sans","Segoe UI",system-ui,sans-serif;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--body)}
-main{max-width:1020px;margin:0 auto;padding:56px 24px 96px}
-h1,h2,h3{font-family:var(--display);margin:0;letter-spacing:-.02em;line-height:1.08}
-h1{font-size:clamp(2.2rem,5.4vw,3.7rem);font-weight:700;max-width:16ch}
-h2{font-size:1.65rem;font-weight:650;margin-bottom:8px}
-h3{font-size:1.1rem;font-weight:650;margin-bottom:10px}
-p{margin:0 0 14px;max-width:64ch}
-.lede{font-size:1.1rem;color:var(--muted);margin-top:18px}
-.status{font-size:.9rem;color:var(--muted);margin-top:6px}
-section{margin-top:76px}
-.sub{color:var(--muted);margin-bottom:22px}
-:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evidence for the demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Public+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #566480;
+      --paper: #f3f6fc;
+      --surface: #fff;
+      --line: #dce5f4;
+      --blue: #2f5fd0;
+      --blue-soft: #eaf1ff;
+      --amber: #ffb000;
+      --amber-soft: #fff4d6;
+      --amber-ink: #744900;
+      --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+      --body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+    }
 
-.hero{margin-top:36px;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:30px;display:grid;grid-template-columns:260px 1fr;gap:40px}
-.patient h3{margin-bottom:16px}
-.field{margin-bottom:16px}
-.field label{display:flex;justify-content:space-between;font-size:.92rem;font-weight:500;margin-bottom:4px}
-.field output{font-variant-numeric:tabular-nums;color:var(--muted)}
-input[type=range]{width:100%;accent-color:var(--blue)}
-.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:.92rem}
-.checks label{display:flex;gap:8px;align-items:center;cursor:pointer}
-.checks input{accent-color:var(--blue);width:17px;height:17px}
-.seg{display:inline-flex;background:var(--paper);border-radius:14px;padding:4px;gap:4px;margin-bottom:22px;flex-wrap:wrap}
-.seg button{border:0;background:transparent;font:500 .9rem var(--body);color:var(--muted);padding:9px 14px;border-radius:10px;cursor:pointer}
-.seg button[aria-pressed=true]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(23,32,51,.14)}
-.seg button:disabled{opacity:.5;cursor:not-allowed}
-.bars{list-style:none;margin:0;padding:0;display:grid;gap:18px}
-.bars li{display:grid;grid-template-columns:1fr auto;gap:2px 16px;align-items:baseline}
-.bars .name{font-weight:500}
-.bars .val{font:650 1.9rem/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-.track{grid-column:1/-1;height:16px;background:var(--paper);border-radius:8px;overflow:hidden}
-.fill{height:100%;border-radius:8px;background:var(--blue);transition:width .45s ease,background-color .3s}
-.fill.low{background:var(--amber)}
-.gap{margin:22px 0 0;font-size:1.02rem}
-.gap strong{font-family:var(--display);font-size:1.25rem}
-@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+    * {
+      box-sizing: border-box
+    }
 
-.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:20px}
-table{border-collapse:collapse;width:100%;min-width:640px;font-size:.98rem}
-th,td{padding:15px 20px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
-tr:last-child td{border-bottom:0}
-thead th{font-weight:600;font-size:.92rem;color:var(--muted);background:#fafcff}
-td.num{font-variant-numeric:tabular-nums;font-weight:600}
-th .hint{display:block;color:var(--muted);font-size:.86rem;font-weight:400}
-td.better{color:#1c4bb8}
-td.pending{background:var(--amber-soft);color:var(--amber-ink);font-size:.95rem;min-width:200px}
-td.pending code{background:rgba(255,255,255,.7);padding:1px 6px;border-radius:5px}
-.tag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.82rem;font-weight:600}
-.tag.ok{background:var(--blue-soft);color:#1c4bb8}
-.tag.no{background:#ffe7e1;color:#9c2f1f}
-.note{font-size:.92rem;color:var(--muted);margin-top:14px}
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 400 17px/1.55 var(--body)
+    }
 
-.groups{display:grid;grid-template-columns:1fr 1fr;gap:48px}
-.rowset{display:grid;gap:20px}
-.row .label{font-weight:500;margin-bottom:6px}
-.pair{display:grid;grid-template-columns:96px 1fr 52px;gap:4px 10px;align-items:center;font-size:.9rem;margin-bottom:4px}
-.pair .t{height:12px;background:var(--paper);border-radius:6px;overflow:hidden}
-.pair .t i{display:block;height:100%;border-radius:6px}
-.pair .v{font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
-.a i{background:var(--amber)} .b i{background:var(--blue)}
+    main {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 56px 24px 96px
+    }
 
-.claims{display:grid;grid-template-columns:1fr 1fr;gap:48px}
-.claims ul{margin:0;padding:0;list-style:none;display:grid;gap:16px}
-.claims li{padding-left:18px;border-left:4px solid var(--blue)}
-.claims .hold li{border-left-color:var(--amber)}
-.claims li strong{display:block;font-weight:600}
-code{font:500 .9em ui-monospace,Menlo,Consolas,monospace}
-footer{margin-top:72px;color:var(--muted);font-size:.9rem}
+    h1,
+    h2,
+    h3 {
+      font-family: var(--display);
+      margin: 0;
+      letter-spacing: -.02em;
+      line-height: 1.08
+    }
 
-@media (max-width:820px){
-  .hero{grid-template-columns:1fr;padding:22px;gap:28px}
-  .groups,.claims{grid-template-columns:1fr;gap:36px}
-  main{padding:36px 16px 72px}
-}
-</style>
+    h1 {
+      font-size: clamp(2.2rem, 5.4vw, 3.7rem);
+      font-weight: 700;
+      max-width: 16ch
+    }
+
+    h2 {
+      font-size: 1.65rem;
+      font-weight: 650;
+      margin-bottom: 8px
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 650;
+      margin-bottom: 10px
+    }
+
+    p {
+      margin: 0 0 14px;
+      max-width: 64ch
+    }
+
+    .lede {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-top: 18px
+    }
+
+    .status {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-top: 6px
+    }
+
+    section {
+      margin-top: 76px
+    }
+
+    .sub {
+      color: var(--muted);
+      margin-bottom: 22px
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 2px;
+      border-radius: 6px
+    }
+
+    .hero {
+      margin-top: 36px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 40px
+    }
+
+    .patient h3 {
+      margin-bottom: 16px
+    }
+
+    .field {
+      margin-bottom: 16px
+    }
+
+    .field label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .92rem;
+      font-weight: 500;
+      margin-bottom: 4px
+    }
+
+    .field output {
+      font-variant-numeric: tabular-nums;
+      color: var(--muted)
+    }
+
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--blue)
+    }
+
+    .checks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+      font-size: .92rem
+    }
+
+    .checks label {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      cursor: pointer
+    }
+
+    .checks input {
+      accent-color: var(--blue);
+      width: 17px;
+      height: 17px
+    }
+
+    .seg {
+      display: inline-flex;
+      background: var(--paper);
+      border-radius: 14px;
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 22px;
+      flex-wrap: wrap
+    }
+
+    .seg button {
+      border: 0;
+      background: transparent;
+      font: 500 .9rem var(--body);
+      color: var(--muted);
+      padding: 9px 14px;
+      border-radius: 10px;
+      cursor: pointer
+    }
+
+    .seg button[aria-pressed=true] {
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: 0 1px 3px rgba(23, 32, 51, .14)
+    }
+
+    .seg button:disabled {
+      opacity: .5;
+      cursor: not-allowed
+    }
+
+    .bars {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 18px
+    }
+
+    .bars li {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2px 16px;
+      align-items: baseline
+    }
+
+    .bars .name {
+      font-weight: 500
+    }
+
+    .bars .val {
+      font: 650 1.9rem/1 var(--display);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -.02em
+    }
+
+    .track {
+      grid-column: 1/-1;
+      height: 16px;
+      background: var(--paper);
+      border-radius: 8px;
+      overflow: hidden
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 8px;
+      background: var(--blue);
+      transition: width .45s ease, background-color .3s
+    }
+
+    .fill.low {
+      background: var(--amber)
+    }
+
+    .gap {
+      margin: 22px 0 0;
+      font-size: 1.02rem
+    }
+
+    .gap strong {
+      font-family: var(--display);
+      font-size: 1.25rem
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      .fill {
+        transition: none
+      }
+    }
+
+    .tablewrap {
+      overflow-x: auto;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 640px;
+      font-size: .98rem
+    }
+
+    th,
+    td {
+      padding: 15px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top
+    }
+
+    tr:last-child td {
+      border-bottom: 0
+    }
+
+    thead th {
+      font-weight: 600;
+      font-size: .92rem;
+      color: var(--muted);
+      background: #fafcff
+    }
+
+    td.num {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600
+    }
+
+    th .hint {
+      display: block;
+      color: var(--muted);
+      font-size: .86rem;
+      font-weight: 400
+    }
+
+    td.better {
+      color: #1c4bb8
+    }
+
+    td.pending {
+      background: var(--amber-soft);
+      color: var(--amber-ink);
+      font-size: .95rem;
+      min-width: 200px
+    }
+
+    td.pending code {
+      background: rgba(255, 255, 255, .7);
+      padding: 1px 6px;
+      border-radius: 5px
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 99px;
+      font-size: .82rem;
+      font-weight: 600
+    }
+
+    .tag.ok {
+      background: var(--blue-soft);
+      color: #1c4bb8
+    }
+
+    .tag.no {
+      background: #ffe7e1;
+      color: #9c2f1f
+    }
+
+    .note {
+      font-size: .92rem;
+      color: var(--muted);
+      margin-top: 14px
+    }
+
+    .groups {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px
+    }
+
+    .rowset {
+      display: grid;
+      gap: 20px
+    }
+
+    .row .label {
+      font-weight: 500;
+      margin-bottom: 6px
+    }
+
+    .pair {
+      display: grid;
+      grid-template-columns: 96px 1fr 52px;
+      gap: 4px 10px;
+      align-items: center;
+      font-size: .9rem;
+      margin-bottom: 4px
+    }
+
+    .pair .t {
+      height: 12px;
+      background: var(--paper);
+      border-radius: 6px;
+      overflow: hidden
+    }
+
+    .pair .t i {
+      display: block;
+      height: 100%;
+      border-radius: 6px
+    }
+
+    .pair .v {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      text-align: right
+    }
+
+    .a i {
+      background: var(--amber)
+    }
+
+    .b i {
+      background: var(--blue)
+    }
+
+    .claims {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px
+    }
+
+    .claims ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 16px
+    }
+
+    .claims li {
+      padding-left: 18px;
+      border-left: 4px solid var(--blue)
+    }
+
+    .claims .hold li {
+      border-left-color: var(--amber)
+    }
+
+    .claims li strong {
+      display: block;
+      font-weight: 600
+    }
+
+    code {
+      font: 500 .9em ui-monospace, Menlo, Consolas, monospace
+    }
+
+    footer {
+      margin-top: 72px;
+      color: var(--muted);
+      font-size: .9rem
+    }
+
+    @media (max-width:820px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 22px;
+        gap: 28px
+      }
+
+      .groups,
+      .claims {
+        grid-template-columns: 1fr;
+        gap: 36px
+      }
+
+      main {
+        padding: 36px 16px 72px
+      }
+    }
+  </style>
 </head>
+
 <body>
-<main>
-  <h1>Same chest pain, same ECG, different urgency.</h1>
-  <p class="lede">This toy triage model learned from biased history. Change the patient below, then switch between the original model and the edited versions. Only sex and insurance differ across the four rows.</p>
-  <p class="status" id="status">Checking for live results.</p>
+  <main>
+    <h1>Same chest pain, same ECG, different urgency.</h1>
+    <p class="lede">This toy triage model learned from biased history. Change the patient below, then switch between the
+      original model and the edited versions. Only sex and insurance differ across the four rows.</p>
+    <p class="status" id="status">Checking for live results.</p>
 
-  <div class="hero" aria-label="Patient comparison">
-    <form class="patient" onsubmit="return false">
-      <h3>Patient</h3>
-      <div class="field"><label for="age">Age <output id="ageOut"></output></label>
-        <input id="age" type="range" min="30" max="85" value="58"></div>
-      <div class="field"><label for="sev">Chest pain severity <output id="sevOut"></output></label>
-        <input id="sev" type="range" min="0" max="100" value="70"></div>
-      <div class="checks">
-        <label><input id="ecg" type="checkbox" checked> ECG abnormal</label>
-        <label><input id="trop" type="checkbox"> Troponin high</label>
-        <label><input id="dia" type="checkbox" checked> Diabetes</label>
-        <label><input id="smo" type="checkbox"> Smoker</label>
+    <div class="hero" aria-label="Patient comparison">
+      <form class="patient" onsubmit="return false">
+        <h3>Patient</h3>
+        <div class="field"><label for="age">Age <output id="ageOut"></output></label>
+          <input id="age" type="range" min="30" max="85" value="58">
+        </div>
+        <div class="field"><label for="sev">Chest pain severity <output id="sevOut"></output></label>
+          <input id="sev" type="range" min="0" max="100" value="70">
+        </div>
+        <div class="checks">
+          <label><input id="ecg" type="checkbox" checked> ECG abnormal</label>
+          <label><input id="trop" type="checkbox"> Troponin high</label>
+          <label><input id="dia" type="checkbox" checked> Diabetes</label>
+          <label><input id="smo" type="checkbox"> Smoker</label>
+        </div>
+      </form>
+      <div>
+        <div class="seg" role="group" aria-label="Model version" id="seg"></div>
+        <h3 style="margin-bottom:14px">Urgency of a cardiac workup</h3>
+        <ul class="bars" id="bars"></ul>
+        <p class="gap" id="gap"></p>
       </div>
-    </form>
-    <div>
-      <div class="seg" role="group" aria-label="Model version" id="seg"></div>
-      <h3 style="margin-bottom:14px">Urgency of a cardiac workup</h3>
-      <ul class="bars" id="bars"></ul>
-      <p class="gap" id="gap"></p>
     </div>
-  </div>
 
-  <section id="results">
-    <h2>Measured on four synthetic populations</h2>
-    <p class="sub">Each number averages four simulated populations of 5,000 patients. Bias is the average change in urgency, in points out of 100, when only that one attribute is flipped.</p>
-    <div class="tablewrap"><table id="wspTable"></table></div>
-    <div id="wspNote" class="note"></div>
-  </section>
+    <section id="results">
+      <h2>Measured on four synthetic populations</h2>
+      <p class="sub">Each number averages four simulated populations of 5,000 patients. Bias is the average change in
+        urgency, in points out of 100, when only that one attribute is flipped.</p>
+      <div class="tablewrap">
+        <table id="wspTable"></table>
+      </div>
+      <div id="wspNote" class="note"></div>
+      <div id="seeds"></div>
+    </section>
 
-  <section id="groupsec">
-    <h2>Who gets flagged as urgent</h2>
-    <p class="sub">Based on 20,000 simulated patients. A patient counts as urgent when the model scores them above 50 out of 100. The last row of each group is what the data says they actually need.</p>
-    <div class="groups" id="groups"></div>
-  </section>
+    <section id="groupsec">
+      <h2>Who gets flagged as urgent</h2>
+      <p class="sub">Based on 20,000 simulated patients. A patient counts as urgent when the model scores them above 50
+        out of 100. The last row of each group is what the data says they actually need.</p>
+      <div class="groups" id="groups"></div>
+    </section>
 
-  <section id="judgesec">
-    <h2>Does the answer check catch weak answers?</h2>
-    <p class="sub">After the visit, the assistant judges whether each answer gives specific reasoning. We scored it on 12 hand labelled answers, 6 specific and 6 vague.</p>
-    <div class="tablewrap"><table id="judgeTable"></table></div>
-    <div id="judgeNote" class="note"></div>
-  </section>
+    <section id="judgesec">
+      <h2>Does the answer check catch weak answers?</h2>
+      <p class="sub">After the visit, the assistant judges whether each answer gives specific reasoning. We scored it on
+        12 hand labelled answers, 6 specific and 6 vague.</p>
+      <div class="tablewrap">
+        <table id="judgeTable"></table>
+      </div>
+      <div id="judgeNote" class="note"></div>
+    </section>
 
-  <section id="say">
-    <h2>What you can say on stage</h2>
-    <p class="sub">Each line on the left is backed by a number on this page. The right side lists what to hold back until you have the evidence.</p>
-    <div class="claims">
-      <div><h3>Backed by this page</h3><ul id="can"></ul></div>
-      <div class="hold"><h3>Hold back for now</h3><ul id="hold"></ul></div>
-    </div>
-  </section>
+    <section id="say">
+      <h2>What you can say on stage</h2>
+      <p class="sub">Each line on the left is backed by a number on this page. The right side lists what to hold back
+        until you have the evidence.</p>
+      <div class="claims">
+        <div>
+          <h3>Backed by this page</h3>
+          <ul id="can"></ul>
+        </div>
+        <div class="hold">
+          <h3>Hold back for now</h3>
+          <ul id="hold"></ul>
+        </div>
+      </div>
+    </section>
 
-  <footer>Synthetic data only. Not clinical validation. To refresh, run <code>npm run wsp</code> and <code>npm run eval:judge</code>, then reload this page.</footer>
-</main>
+    <footer>Synthetic data only. Not clinical validation. To refresh, run <code>npm run wsp</code> and
+      <code>npm run eval:judge</code>, then reload this page.</footer>
+  </main>
 
-<script>
-const DATA = {"weights":{"W1":[[0.138,0.269,0.258,-0.007,-0.21,0.049,-0.091,0.274],[0.805,0.481,0.587,-0.098,-0.103,0.368,-0.279,-0.672],[0.219,0.949,0.762,0.27,0.111,0.208,-0.38,0.169],[0.568,0.909,0.144,0.383,-0.537,-0.174,-0.956,0.103],[0.228,0.531,-0.156,0.007,-0.18,0.053,0.201,0.079],[0.107,0.317,0.285,-0.558,0.155,0.042,-0.067,-0.55],[-0.109,-0.4,-0.237,-0.19,0.996,-0.521,0.229,-0.481],[0.081,-0.196,-0.255,-0.363,-0.012,-0.501,0.571,-0.492]],"b1":[-0.28,0.07,0.139,-0.644,0.903,-0.637,1.234,-0.216],"W2":[[1.298],[0.818],[0.482],[-0.642],[-0.861],[-0.525],[-1.105],[-0.45]],"b2":[-0.61]},"measured":{"original":{"mean_sex_disparity":0.2011601871628264,"mean_insurance_disparity":0.09030039012869712,"mean_max_disparity":0.2011601871628264,"mean_accuracy":0.8644,"mean_brier":0.03649963126011223},"manual":{"mean_sex_disparity":0.0,"mean_insurance_disparity":0.0,"mean_max_disparity":0.0,"mean_accuracy":0.9869,"mean_brier":0.00022676371682204448},"fraction_changed":0.19753086419753085,"max_abs_weight":1.298},"groups":[{"title":"Women and men","a":"Women","b":"Men","rows":[["Original model",0.11619182804420562,0.31587254611818094],["After manual edit",0.3532393794991382,0.35256979382460296],["Actual need in the data",0.3437088107066815,0.34270494229061854]]},{"title":"Medicaid and private insurance","a":"Medicaid","b":"Private","rows":[["Original model",0.15324197860962566,0.24479166666666666],["After manual edit",0.3502673796791444,0.3540239726027397],["Actual need in the data",0.3409090909090909,0.3441780821917808]]}],"judge":{"heuristic":{"n":12,"tp":6,"fp":2,"tn":4,"fn":0,"accuracy":0.8333333333333334,"precision":0.75,"recall":1.0,"f1":0.8571428571428571,"misses":["They come here all the time, so it is probably the same thing as usual.","I think this is enough because the patient looks comfortable."]}},"tests":{"engine":24,"api":3,"wsp":3}};
-const $ = id => document.getElementById(id);
-const pct = (v, d = 1) => (v * 100).toFixed(d);
-const relu = x => Math.max(0, x);
+  <script>
+    const DATA = { "weights": { "W1": [[0.138, 0.269, 0.258, -0.007, -0.21, 0.049, -0.091, 0.274], [0.805, 0.481, 0.587, -0.098, -0.103, 0.368, -0.279, -0.672], [0.219, 0.949, 0.762, 0.27, 0.111, 0.208, -0.38, 0.169], [0.568, 0.909, 0.144, 0.383, -0.537, -0.174, -0.956, 0.103], [0.228, 0.531, -0.156, 0.007, -0.18, 0.053, 0.201, 0.079], [0.107, 0.317, 0.285, -0.558, 0.155, 0.042, -0.067, -0.55], [-0.109, -0.4, -0.237, -0.19, 0.996, -0.521, 0.229, -0.481], [0.081, -0.196, -0.255, -0.363, -0.012, -0.501, 0.571, -0.492]], "b1": [-0.28, 0.07, 0.139, -0.644, 0.903, -0.637, 1.234, -0.216], "W2": [[1.298], [0.818], [0.482], [-0.642], [-0.861], [-0.525], [-1.105], [-0.45]], "b2": [-0.61] }, "measured": { "original": { "mean_sex_disparity": 0.2011601871628264, "mean_insurance_disparity": 0.09030039012869712, "mean_max_disparity": 0.2011601871628264, "mean_accuracy": 0.8644, "mean_brier": 0.03649963126011223 }, "manual": { "mean_sex_disparity": 0.0, "mean_insurance_disparity": 0.0, "mean_max_disparity": 0.0, "mean_accuracy": 0.9869, "mean_brier": 0.00022676371682204448 }, "fraction_changed": 0.19753086419753085, "max_abs_weight": 1.298 }, "groups": [{ "title": "Women and men", "a": "Women", "b": "Men", "rows": [["Original model", 0.11619182804420562, 0.31587254611818094], ["After manual edit", 0.3532393794991382, 0.35256979382460296], ["Actual need in the data", 0.3437088107066815, 0.34270494229061854]] }, { "title": "Medicaid and private insurance", "a": "Medicaid", "b": "Private", "rows": [["Original model", 0.15324197860962566, 0.24479166666666666], ["After manual edit", 0.3502673796791444, 0.3540239726027397], ["Actual need in the data", 0.3409090909090909, 0.3441780821917808]] }], "judge": { "heuristic": { "n": 12, "tp": 6, "fp": 2, "tn": 4, "fn": 0, "accuracy": 0.8333333333333334, "precision": 0.75, "recall": 1.0, "f1": 0.8571428571428571, "misses": ["They come here all the time, so it is probably the same thing as usual.", "I think this is enough because the patient looks comfortable."] } }, "tests": { "engine": 24, "api": 3, "wsp": 3 }, "snapshot": { "wsp": { "source": "llm-wsp", "model": "gpt-6-astra", "reasoning": "Female and Medicaid have nonzero connections to every hidden unit, changing both ReLU activation patterns and the output logit. Zeroing only their two W1 rows removes all protected-attribute dependence while preserving every clinical-feature weight and all downstream weights and biases. This targeted edit exactly preserves predictions for female=0, medicaid=0; population calibration cannot be guaranteed without evaluation data.", "fraction_of_weights_changed": 0.19753086419753085, "max_abs_weight": 1.298, "accepted": true, "before": { "mean_max_disparity": 0.20116018716282638, "mean_sex_disparity": 0.20116018716282638, "mean_insurance_disparity": 0.09030039012869712, "mean_accuracy": 0.8644, "mean_brier": 0.03649963126011223, "per_seed": [{ "seed": 99, "disparity": { "max": 0.20136977077678184 }, "accuracy_vs_unbiased_need": 0.8628 }, { "seed": 2026, "disparity": { "max": 0.20170561524114805 }, "accuracy_vs_unbiased_need": 0.864 }, { "seed": 7301, "disparity": { "max": 0.19978761604105424 }, "accuracy_vs_unbiased_need": 0.872 }, { "seed": 48117, "disparity": { "max": 0.20177774659232142 }, "accuracy_vs_unbiased_need": 0.8588 }] }, "after": { "mean_max_disparity": 0, "mean_sex_disparity": 0, "mean_insurance_disparity": 0, "mean_accuracy": 0.9868999999999999, "mean_brier": 0.0002267637168220445, "per_seed": [{ "seed": 99, "disparity": { "max": 0 }, "accuracy_vs_unbiased_need": 0.9884 }, { "seed": 2026, "disparity": { "max": 0 }, "accuracy_vs_unbiased_need": 0.9862 }, { "seed": 7301, "disparity": { "max": 0 }, "accuracy_vs_unbiased_need": 0.9878 }, { "seed": 48117, "disparity": { "max": 0 }, "accuracy_vs_unbiased_need": 0.9852 }] } }, "judge": { "n": 12, "tp": 4, "fp": 0, "tn": 6, "fn": 2, "accuracy": 0.8333333333333334, "precision": 1, "recall": 0.6666666666666666, "f1": 0.8, "cases": [{ "expected": true, "predicted": true, "answer": "The patient has a pain score of 9/10, this is different from baseline, temperature is 38.4 C, and oxygen saturation is 91%." }, { "expected": false, "predicted": false, "answer": "They come here all the time, so it is probably the same thing as usual." }, { "expected": true, "predicted": false, "answer": "The individualized plan documents the patient's prior response, and I will document dose timing and reassess pain and respiratory status." }, { "expected": false, "predicted": false, "answer": "I think this is enough because the patient looks comfortable." }, { "expected": true, "predicted": true, "answer": "The ECG has no acute ischemic changes, serial high-sensitivity troponins are below the assay threshold, and the HEART score is 2." }, { "expected": false, "predicted": false, "answer": "She is young and seems anxious, so I do not think it is cardiac." }, { "expected": true, "predicted": true, "answer": "We have two non-rising troponins, a nonischemic ECG, documented risk score, and explicit return precautions." }, { "expected": false, "predicted": false, "answer": "I usually discharge people like this." }, { "expected": true, "predicted": true, "answer": "Blood pressures were 164/112 and 162/110 fifteen minutes apart, with headache and elevated liver enzymes." }, { "expected": false, "predicted": false, "answer": "She is probably just stressed and pregnancy causes headaches." }, { "expected": true, "predicted": false, "answer": "Repeat blood pressures, urine protein, platelets, creatinine, liver enzymes, and neurologic symptoms are documented." }, { "expected": false, "predicted": false, "answer": "She says she feels okay now, so I am not concerned." }] } } };
+    const $ = id => document.getElementById(id);
+    const pct = (v, d = 1) => (v * 100).toFixed(d);
+    const relu = x => Math.max(0, x);
 
-function forward(W, x) {
-  const h = W.b1.map((b, j) => relu(b + x.reduce((s, xi, i) => s + xi * W.W1[i][j], 0)));
-  const z = W.b2[0] + h.reduce((s, hj, j) => s + hj * W.W2[j][0], 0);
-  return 1 / (1 + Math.exp(-z));
-}
-function zeroProtected(W) {
-  if (!W) return null;
-  const c = JSON.parse(JSON.stringify(W));
-  [6, 7].forEach(i => { c.W1[i] = c.W1[i].map(() => 0); });
-  return c;
-}
-const MODELS = {
-  original: { name: 'Original model', W: DATA.weights },
-  manual:   { name: 'Manual reference edit', W: zeroProtected(DATA.weights) },
-  wsp:      { name: 'WSP edit', W: null }
-};
-let live = { wsp: null, judge: null, weights_patched: null };
-let model = 'original';
+    function forward(W, x) {
+      const h = W.b1.map((b, j) => relu(b + x.reduce((s, xi, i) => s + xi * W.W1[i][j], 0)));
+      const z = W.b2[0] + h.reduce((s, hj, j) => s + hj * W.W2[j][0], 0);
+      return 1 / (1 + Math.exp(-z));
+    }
+    function zeroProtected(W) {
+      if (!W) return null;
+      const c = JSON.parse(JSON.stringify(W));
+      [6, 7].forEach(i => { c.W1[i] = c.W1[i].map(() => 0); });
+      return c;
+    }
+    const MODELS = {
+      original: { name: 'Original model', W: DATA.weights },
+      manual: { name: 'Manual reference edit', W: zeroProtected(DATA.weights) },
+      wsp: { name: 'WSP edit', W: null }
+    };
+    let live = { wsp: DATA.snapshot.wsp, judge: DATA.snapshot.judge, weights_patched: zeroProtected(DATA.weights) };
+    let model = 'original';
 
-const VARIANTS = [
-  ['Man, private insurance', 0, 0],
-  ['Woman, private insurance', 1, 0],
-  ['Man, on Medicaid', 0, 1],
-  ['Woman, on Medicaid', 1, 1]
-];
-function patient(female, medicaid) {
-  const age = +$('age').value, sev = +$('sev').value / 100;
-  return [(age - 55) / 15, sev, +$('ecg').checked, +$('trop').checked, +$('dia').checked, +$('smo').checked, female, medicaid];
-}
-function renderHero() {
-  $('ageOut').textContent = $('age').value;
-  $('sevOut').textContent = (+$('sev').value / 100).toFixed(2);
-  const W = MODELS[model].W;
-  if (!W) {
-    $('seg').innerHTML = '';
-    $('bars').innerHTML = '';
-    $('gap').textContent = 'The live patient comparison needs the model weights. Run build_evals.py in the project folder to bake them into this page. Every number below is already real.';
-    return;
-  }
-  const vals = VARIANTS.map(([, f, m]) => forward(W, patient(f, m)) * 100);
-  $('bars').innerHTML = VARIANTS.map(([label], i) => {
-    const low = i > 0 && vals[0] - vals[i] >= 1;
-    return `<li><span class="name">${label}</span><span class="val">${Math.round(vals[i])}</span>` +
-      `<div class="track"><div class="fill${low ? ' low' : ''}" style="width:${vals[i].toFixed(1)}%"></div></div></li>`;
-  }).join('');
-  const spread = Math.max(...vals) - Math.min(...vals);
-  $('gap').innerHTML = spread < 1
-    ? `<strong>No gap.</strong> All four versions of this patient get the same score.`
-    : `Gap between highest and lowest, <strong>${Math.round(spread)} points</strong>, for the same findings.`;
-  $('seg').innerHTML = ['original', 'manual', 'wsp'].map(k => {
-    const off = k === 'wsp' && !MODELS.wsp.W;
-    return `<button type="button" data-k="${k}" aria-pressed="${k === model}" ${off ? 'disabled title="No accepted WSP edit yet. Run npm run wsp."' : ''}>${MODELS[k].name}${off ? ' (not run)' : ''}</button>`;
-  }).join('');
-}
-$('seg').addEventListener('click', e => {
-  const k = e.target.dataset?.k;
-  if (k && !e.target.disabled) { model = k; renderHero(); }
-});
-['age', 'sev', 'ecg', 'trop', 'dia', 'smo'].forEach(id => $(id).addEventListener('input', renderHero));
+    const VARIANTS = [
+      ['Man, private insurance', 0, 0],
+      ['Woman, private insurance', 1, 0],
+      ['Man, on Medicaid', 0, 1],
+      ['Woman, on Medicaid', 1, 1]
+    ];
+    function patient(female, medicaid) {
+      const age = +$('age').value, sev = +$('sev').value / 100;
+      return [(age - 55) / 15, sev, +$('ecg').checked, +$('trop').checked, +$('dia').checked, +$('smo').checked, female, medicaid];
+    }
+    function renderHero() {
+      $('ageOut').textContent = $('age').value;
+      $('sevOut').textContent = (+$('sev').value / 100).toFixed(2);
+      const W = MODELS[model].W;
+      if (!W) {
+        $('seg').innerHTML = '';
+        $('bars').innerHTML = '';
+        $('gap').textContent = 'The live patient comparison needs the model weights. Run build_evals.py in the project folder to bake them into this page. Every number below is already real.';
+        return;
+      }
+      const vals = VARIANTS.map(([, f, m]) => forward(W, patient(f, m)) * 100);
+      $('bars').innerHTML = VARIANTS.map(([label], i) => {
+        const low = i > 0 && vals[0] - vals[i] >= 1;
+        return `<li><span class="name">${label}</span><span class="val">${Math.round(vals[i])}</span>` +
+          `<div class="track"><div class="fill${low ? ' low' : ''}" style="width:${vals[i].toFixed(1)}%"></div></div></li>`;
+      }).join('');
+      const spread = Math.max(...vals) - Math.min(...vals);
+      $('gap').innerHTML = spread < 1
+        ? `<strong>No gap.</strong> All four versions of this patient get the same score.`
+        : `Gap between highest and lowest, <strong>${Math.round(spread)} points</strong>, for the same findings.`;
+      $('seg').innerHTML = ['original', 'manual', 'wsp'].map(k => {
+        const off = k === 'wsp' && !MODELS.wsp.W;
+        return `<button type="button" data-k="${k}" aria-pressed="${k === model}" ${off ? 'disabled title="No accepted WSP edit yet. Run npm run wsp."' : ''}>${MODELS[k].name}${off ? ' (not run)' : ''}</button>`;
+      }).join('');
+    }
+    $('seg').addEventListener('click', e => {
+      const k = e.target.dataset?.k;
+      if (k && !e.target.disabled) { model = k; renderHero(); }
+    });
+    ['age', 'sev', 'ecg', 'trop', 'dia', 'smo'].forEach(id => $(id).addEventListener('input', renderHero));
 
-function gates(before, after, maxW) {
-  const drop = before.mean_max_disparity - after.mean_max_disparity;
-  return maxW <= 25 && drop >= Math.max(0.01, before.mean_max_disparity * 0.5) &&
-    after.mean_accuracy - before.mean_accuracy >= -0.02 && after.mean_brier - before.mean_brier <= 0.02;
-}
-function renderTable() {
-  const o = DATA.measured.original, m = DATA.measured.manual;
-  const w = live.wsp && live.wsp.source === 'llm-wsp' ? live.wsp : null;
-  const wa = w ? w.after : null;
-  const rows = [
-    ['Bias from sex', 'average points of urgency lost or gained', pct(o.mean_sex_disparity) + ' points', pct(m.mean_sex_disparity) + ' points', wa && pct(wa.mean_sex_disparity) + ' points'],
-    ['Bias from insurance', 'Medicaid versus private', pct(o.mean_insurance_disparity) + ' points', pct(m.mean_insurance_disparity) + ' points', wa && pct(wa.mean_insurance_disparity) + ' points'],
-    ['Agreement with true need', 'urgent or not, versus the unbiased truth', pct(o.mean_accuracy) + '%', pct(m.mean_accuracy) + '%', wa && pct(wa.mean_accuracy) + '%'],
-    ['Error in the scores', 'Brier score, lower is better', o.mean_brier.toFixed(4), m.mean_brier.toFixed(4), wa && wa.mean_brier.toFixed(4)],
-    ['Weights changed', 'of 81 in the network', 'none', pct(DATA.measured.fraction_changed, 0) + '%', w && pct(w.fraction_of_weights_changed, 0) + '%'],
-    ['Passes the acceptance gates', 'bias cut by half or more, accuracy and error held', 'not applicable',
-      gates(o, m, DATA.measured.max_abs_weight) ? '<span class="tag ok">Yes</span>' : '<span class="tag no">No</span>',
-      w && (w.accepted ? '<span class="tag ok">Yes</span>' : '<span class="tag no">Rejected</span>')]
-  ];
-  let html = `<thead><tr><th></th><th>Original model</th><th>Manual reference edit</th><th>LLM weight edit (WSP)</th></tr></thead><tbody>`;
-  rows.forEach((r, i) => {
-    html += `<tr><th scope="row">${r[0]}<span class="hint">${r[1]}</span></th>` +
-      `<td class="num">${r[2]}</td><td class="num better">${r[3]}</td>`;
-    if (w) html += `<td class="num${w.accepted ? ' better' : ''}">${r[4]}</td>`;
-    else if (i === 0) html += `<td class="pending" rowspan="${rows.length}">No LLM edit has been run yet. Run <code>npm run wsp</code> and reload. The result appears here, accepted or rejected.</td>`;
-    html += '</tr>';
-  });
-  $('wspTable').innerHTML = html + '</tbody>';
+    function gates(before, after, maxW) {
+      const drop = before.mean_max_disparity - after.mean_max_disparity;
+      return maxW <= 25 && drop >= Math.max(0.01, before.mean_max_disparity * 0.5) &&
+        after.mean_accuracy - before.mean_accuracy >= -0.02 && after.mean_brier - before.mean_brier <= 0.02;
+    }
+    const sameAsManual = () => !!(DATA.weights && live.weights_patched && JSON.stringify(live.weights_patched.W1) === JSON.stringify(zeroProtected(DATA.weights).W1));
+    const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    function renderTable() {
+      const o = DATA.measured.original, m = DATA.measured.manual;
+      const w = live.wsp && live.wsp.source === 'llm-wsp' ? live.wsp : null;
+      const wa = w ? w.after : null;
+      const rows = [
+        ['Bias from sex', 'average points of urgency lost or gained', pct(o.mean_sex_disparity) + ' points', pct(m.mean_sex_disparity) + ' points', wa && pct(wa.mean_sex_disparity) + ' points'],
+        ['Bias from insurance', 'Medicaid versus private', pct(o.mean_insurance_disparity) + ' points', pct(m.mean_insurance_disparity) + ' points', wa && pct(wa.mean_insurance_disparity) + ' points'],
+        ['Agreement with true need', 'urgent or not, versus the unbiased truth', pct(o.mean_accuracy) + '%', pct(m.mean_accuracy) + '%', wa && pct(wa.mean_accuracy) + '%'],
+        ['Error in the scores', 'Brier score, lower is better', o.mean_brier.toFixed(4), m.mean_brier.toFixed(4), wa && wa.mean_brier.toFixed(4)],
+        ['Weights changed', 'of 81 in the network', 'none', pct(DATA.measured.fraction_changed, 0) + '%', w && pct(w.fraction_of_weights_changed, 0) + '%'],
+        ['Passes the acceptance gates', 'bias cut by half or more, accuracy and error held', 'not applicable',
+          gates(o, m, DATA.measured.max_abs_weight) ? '<span class="tag ok">Yes</span>' : '<span class="tag no">No</span>',
+          w && (w.accepted ? '<span class="tag ok">Yes</span>' : '<span class="tag no">Rejected</span>')]
+      ];
+      let html = `<thead><tr><th></th><th>Original model</th><th>Manual reference edit</th><th>LLM weight edit (WSP)</th></tr></thead><tbody>`;
+      rows.forEach((r, i) => {
+        html += `<tr><th scope="row">${r[0]}<span class="hint">${r[1]}</span></th>` +
+          `<td class="num">${r[2]}</td><td class="num better">${r[3]}</td>`;
+        if (w) html += `<td class="num${w.accepted ? ' better' : ''}">${r[4]}</td>`;
+        else if (i === 0) html += `<td class="pending" rowspan="${rows.length}">No LLM edit has been run yet. Run <code>npm run wsp</code> and reload. The result appears here, accepted or rejected.</td>`;
+        html += '</tr>';
+      });
+      $('wspTable').innerHTML = html + '</tbody>';
 
-  let note = 'The manual reference zeroes the two protected inputs by hand. It is not WSP. It shows the best outcome this toy problem allows.';
-  if (w) {
-    note = `Model ${w.model || 'unknown'} changed ${pct(w.fraction_of_weights_changed, 0)}% of the weights and said: <em>${(w.reasoning || '').replace(/</g, '&lt;')}</em>`;
-    if (!w.accepted) note += ' The edit failed the acceptance gates, so no patched weights were saved.';
-  }
-  $('wspNote').innerHTML = note;
-}
+      let note = 'The manual reference zeroes the two protected inputs by hand. It is not WSP. It shows the best outcome this toy problem allows.';
+      if (w) {
+        const n = Math.round(w.fraction_of_weights_changed * 81);
+        note = `${esc(w.model) || 'The model'} changed ${n} of 81 weights and explained: <em>${esc(w.reasoning)}</em>`;
+        note += w.accepted ? ' The edit passed all four acceptance gates.' : ' The edit failed the acceptance gates, so no patched weights were saved.';
+        if (sameAsManual()) note += ' The rows it zeroed match the manual reference exactly, which is why the two columns agree.';
+      }
+      $('wspNote').innerHTML = note;
+    }
+    function renderSeeds() {
+      const w = live.wsp && live.wsp.source === 'llm-wsp' ? live.wsp : null;
+      const el = $('seeds');
+      if (!w || !w.before || !w.after || !w.before.per_seed || !w.after.per_seed) { el.innerHTML = ''; return; }
+      const rows = w.before.per_seed.map((b, i) => {
+        const a = w.after.per_seed[i];
+        return `<tr><th scope="row">Seed ${b.seed}</th><td class="num">${pct(b.disparity.max)} points</td><td class="num better">${pct(a.disparity.max)} points</td>` +
+          `<td class="num">${pct(b.accuracy_vs_unbiased_need)}%</td><td class="num better">${pct(a.accuracy_vs_unbiased_need)}%</td></tr>`;
+      }).join('');
+      el.innerHTML = `<h3 style="margin:40px 0 6px">Same result on every population</h3>` +
+        `<p class="sub" style="margin-bottom:16px">The four populations behind the averages, each with its own random seed. The edit closes the gap on all of them.</p>` +
+        `<div class="tablewrap"><table><thead><tr><th></th><th>Worst bias before</th><th>Worst bias after</th><th>Accuracy before</th><th>Accuracy after</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    }
 
-function renderGroups() {
-  $('groups').innerHTML = DATA.groups.map(g => `<div><h3>${g.title}</h3><div class="rowset">` +
-    g.rows.map(r => `<div class="row"><div class="label">${r[0]}</div>` +
-      `<div class="pair a"><span>${g.a}</span><span class="t"><i style="width:${pct(r[1] * 2, 1)}%"></i></span><span class="v">${pct(r[1])}%</span></div>` +
-      `<div class="pair b"><span>${g.b}</span><span class="t"><i style="width:${pct(r[2] * 2, 1)}%"></i></span><span class="v">${pct(r[2])}%</span></div></div>`).join('') +
-    '</div></div>').join('');
-}
+    function renderGroups() {
+      $('groups').innerHTML = DATA.groups.map(g => `<div><h3>${g.title}</h3><div class="rowset">` +
+        g.rows.map(r => `<div class="row"><div class="label">${r[0]}</div>` +
+          `<div class="pair a"><span>${g.a}</span><span class="t"><i style="width:${pct(r[1] * 2, 1)}%"></i></span><span class="v">${pct(r[1])}%</span></div>` +
+          `<div class="pair b"><span>${g.b}</span><span class="t"><i style="width:${pct(r[2] * 2, 1)}%"></i></span><span class="v">${pct(r[2])}%</span></div></div>`).join('') +
+        '</div></div>').join('');
+    }
 
-function judgeStats(r) {
-  const neg = r.tn + r.fp;
-  return [pct(r.accuracy) + '%', pct(r.precision) + '%', pct(r.recall) + '%', pct(r.f1) + '%', `${r.fp} of ${neg}`];
-}
-function renderJudge() {
-  const h = DATA.judge.heuristic, a = live.judge;
-  const hs = judgeStats(h), as = a ? judgeStats(a) : null;
-  const labels = [
-    ['Overall accuracy', 'right call on all 12 answers'],
-    ['Precision', 'of answers it passed, how many were truly specific'],
-    ['Recall', 'of the specific answers, how many it passed'],
-    ['F1', 'one number balancing precision and recall'],
-    ['Vague answers it let through', 'lower is better']
-  ];
-  let html = `<thead><tr><th></th><th>Offline fallback (measured)</th><th>Astra judge</th></tr></thead><tbody>`;
-  labels.forEach((l, i) => {
-    html += `<tr><th scope="row">${l[0]}<span class="hint">${l[1]}</span></th><td class="num">${hs[i]}</td>`;
-    if (as) html += `<td class="num better">${as[i]}</td>`;
-    else if (i === 0) html += `<td class="pending" rowspan="${labels.length}">Not run yet. Run <code>npm run eval:judge</code> with your API key and reload.</td>`;
-    html += '</tr>';
-  });
-  $('judgeTable').innerHTML = html + '</tbody>';
-  $('judgeNote').innerHTML = `The fallback matches keywords such as "same" and "because", so it let two vague answers through: ` +
-    h.misses.map(m => `<em>"${m}"</em>`).join(' and ') + '. Catching answers like these is the reason to use a language model judge.';
-}
+    function renderJudge() {
+      const h = DATA.judge.heuristic, a = live.judge;
+      const fmt = r => [pct(r.accuracy) + '%', pct(r.precision) + '%', pct(r.recall) + '%', pct(r.f1) + '%', `${r.fp} of ${r.tn + r.fp}`, `${r.fn} of ${r.tp + r.fn}`];
+      const val = r => [r.accuracy, r.precision, r.recall, r.f1, r.fp, r.fn];
+      const hs = fmt(h), hv = val(h), as = a ? fmt(a) : null, av = a ? val(a) : null;
+      const labels = [
+        ['Overall accuracy', 'right call on all 12 answers'],
+        ['Precision', 'of answers it passed, how many were truly specific'],
+        ['Recall', 'of the specific answers, how many it passed'],
+        ['F1', 'one number balancing precision and recall'],
+        ['Vague answers it let through', 'lower is better'],
+        ['Specific answers it blocked', 'lower is better']
+      ];
+      let html = `<thead><tr><th></th><th>Offline fallback (measured)</th><th>Astra judge</th></tr></thead><tbody>`;
+      labels.forEach((l, i) => {
+        html += `<tr><th scope="row">${l[0]}<span class="hint">${l[1]}</span></th><td class="num">${hs[i]}</td>`;
+        if (as) {
+          const better = i >= 4 ? av[i] < hv[i] : av[i] > hv[i];
+          html += `<td class="num${better ? ' better' : ''}">${as[i]}</td>`;
+        } else if (i === 0) html += `<td class="pending" rowspan="${labels.length}">Not run yet. Run <code>npm run eval:judge</code> with your API key and reload.</td>`;
+        html += '</tr>';
+      });
+      $('judgeTable').innerHTML = html + '</tbody>';
+      let note = `The keyword fallback matches words such as "same" and "because", so it let through ${h.fp} vague answers: ` +
+        h.misses.map(m => `<em>"${esc(m)}"</em>`).join(' and ') + '.';
+      if (a) {
+        const blocked = (a.cases || []).filter(c => c.expected && !c.predicted).map(c => `<em>"${esc(c.answer)}"</em>`);
+        note += ` The Astra judge let through ${a.fp} of ${a.tn + a.fp} vague answers` +
+          (a.fn ? `, but it blocked ${a.fn} of ${a.tp + a.fn} specific ones${blocked.length ? ': ' + blocked.join(' and ') : ''}.` : '.') +
+          (Math.abs(a.accuracy - h.accuracy) < 1e-9 ? ' Overall accuracy ties, so the difference is the kind of mistake each one makes.' : '');
+      } else note += ' Catching answers like these is the reason to use a language model judge.';
+      $('judgeNote').innerHTML = note;
+    }
 
-function renderClaims() {
-  const o = DATA.measured.original, m = DATA.measured.manual, g = DATA.groups[0].rows, t = DATA.tests;
-  const w = live.wsp && live.wsp.source === 'llm-wsp' ? live.wsp : null;
-  const can = [
-    ['Flipping only sex or insurance changes the urgency score.', `On the synthetic model the average change is ${pct(o.mean_sex_disparity, 0)} points for sex and ${pct(o.mean_insurance_disparity, 0)} points for insurance.`],
-    ['Women were flagged less often with the same need.', `${pct(g[0][1])}% of women were flagged urgent against ${pct(g[0][2])}% of men, while actual need was ${pct(g[2][1], 0)}% for both.`],
-    ['Removing the protected inputs closes the gap.', `The manual reference brings both gaps to zero and lifts agreement with true need from ${pct(o.mean_accuracy)}% to ${pct(m.mean_accuracy)}%. This is the bar any automatic edit has to reach.`],
-    ['The software is tested.', `${t.engine} engine tests, ${t.api} API tests and ${t.wsp} weight edit gates pass. These check the code, not clinical results.`]
-  ];
-  if (w && w.accepted) can.push(['A language model edited the weights and passed the gates.', `${w.model || 'The model'} cut sex bias from ${pct(o.mean_sex_disparity)} to ${pct(w.after.mean_sex_disparity)} points and insurance bias from ${pct(o.mean_insurance_disparity)} to ${pct(w.after.mean_insurance_disparity)} points, with no training loop.`]);
-  const hold = [];
-  if (!w) hold.push(['Do not say WSP reduced the bias.', 'No language model edit has been run in these results. Run npm run wsp, and say so only if the report shows an accepted edit.']);
-  else if (!w.accepted) hold.push(['The WSP edit was rejected.', 'It failed the acceptance gates. Say that plainly and show the table, because an honest negative result is stronger than a hidden one.']);
-  hold.push(['Do not say WSP beats a simple edit.', 'Zeroing two rows already reaches zero bias. The fair claim is that a model found a working edit by reading the weights, with no training and with gates as a safety check.']);
-  hold.push(['Do not call this proof for real hospitals.', 'We planted the bias in synthetic data and score accuracy against the generator\'s own truth. The network has 81 weights.']);
-  hold.push(['Do not claim the prompts change behavior.', `The answer check numbers come from the offline fallback on 12 hand written cases${live.judge ? ', plus the Astra run shown above' : ''}. Nothing here shows the tips or questions change what clinicians do.`]);
-  const li = a => `<li><strong>${a[0]}</strong>${a[1]}</li>`;
-  $('can').innerHTML = can.map(li).join('');
-  $('hold').innerHTML = hold.map(li).join('');
-}
+    function renderClaims() {
+      const o = DATA.measured.original, m = DATA.measured.manual, g = DATA.groups[0].rows, t = DATA.tests, h = DATA.judge.heuristic;
+      const w = live.wsp && live.wsp.source === 'llm-wsp' ? live.wsp : null, j = live.judge;
+      const can = [
+        ['Flipping only sex or insurance changes the urgency score.', `On the synthetic model the average change is ${pct(o.mean_sex_disparity, 0)} points for sex and ${pct(o.mean_insurance_disparity, 0)} points for insurance.`],
+        ['Women were flagged less often with the same need.', `${pct(g[0][1])}% of women were flagged urgent against ${pct(g[0][2])}% of men, while actual need was ${pct(g[2][1], 0)}% for both.`],
+        ['Removing the protected inputs closes the gap.', `The manual reference brings both gaps to zero and lifts agreement with true need from ${pct(o.mean_accuracy)}% to ${pct(m.mean_accuracy)}%. This is the bar any automatic edit has to reach.`],
+        ['The software is tested.', `${t.engine} engine tests, ${t.api} API tests and ${t.wsp} weight edit gates pass. These check the code, not clinical results.`]
+      ];
+      if (w && w.accepted) can.push(['A language model edited the weights and passed the gates.', `${w.model || 'The model'} cut sex bias from ${pct(o.mean_sex_disparity)} to ${pct(w.after.mean_sex_disparity)} points and insurance bias from ${pct(o.mean_insurance_disparity)} to ${pct(w.after.mean_insurance_disparity)} points, and agreement with true need rose from ${pct(o.mean_accuracy)}% to ${pct(w.after.mean_accuracy)}%. No training loop was involved.`]);
+      if (j && j.fp < h.fp) can.push([`The Astra judge passed ${j.fp} of ${j.tn + j.fp} vague answers.`, `The keyword fallback passed ${h.fp}. The judge also blocked ${j.fn} of ${j.tp + j.fn} specific answers, so quote both numbers together.`]);
+      const hold = [];
+      if (!w) hold.push(['Do not say WSP reduced the bias.', 'No language model edit has been run in these results. Run npm run wsp, and say so only if the report shows an accepted edit.']);
+      else if (!w.accepted) hold.push(['The WSP edit was rejected.', 'It failed the acceptance gates. Say that plainly and show the table, because an honest negative result is stronger than a hidden one.']);
+      hold.push(['Do not say WSP beats a simple edit.', (sameAsManual() ? 'The model zeroed the same two rows the manual edit zeroes, so the results are identical. ' : '') + 'Zeroing two rows already reaches zero bias. The fair claim is that a model found a working edit by reading the weights, with no training and with gates as a safety check.']);
+      hold.push(['Do not call this proof for real hospitals.', 'We planted the bias in synthetic data and score accuracy against the generator\'s own truth. The network has 81 weights.']);
+      if (j) hold.push(['Do not say the Astra judge is more accurate.', `Accuracy is ${pct(j.accuracy)}% for the judge and ${pct(h.accuracy)}% for the fallback, on only ${j.n} cases. Compare the mistakes each one makes, not the headline number.`]);
+      hold.push(['Do not claim the prompts change behavior.', `The answer check numbers come from 12 hand written cases${j ? ', scored by the offline fallback and by the Astra judge' : ' and the offline fallback'}. Nothing here shows the tips or questions change what clinicians do.`]);
+      const li = a => `<li><strong>${a[0]}</strong>${a[1]}</li>`;
+      $('can').innerHTML = can.map(li).join('');
+      $('hold').innerHTML = hold.map(li).join('');
+    }
 
-function applyLive() {
-  const w = live.wsp;
-  if (w && w.source === 'llm-wsp' && w.accepted && live.weights_patched) MODELS.wsp.W = live.weights_patched;
-  renderHero(); renderTable(); renderJudge(); renderClaims();
-}
-async function loadLive() {
-  try {
-    const r = await fetch('/api/evals');
-    if (!r.ok) throw new Error(r.status);
-    live = await r.json();
-    const parts = [];
-    parts.push(live.wsp && live.wsp.source === 'llm-wsp' ? 'WSP report found' : 'no WSP report yet');
-    parts.push(live.judge ? 'Astra judge report found' : 'no Astra judge report yet');
-    $('status').textContent = 'Connected to the API, ' + parts.join(' and ') + '.';
-    applyLive();
-  } catch (e) {
-    $('status').textContent = 'Not connected to the API, so this page shows the measured baseline only.';
-  }
-}
+    function applyLive() {
+      const w = live.wsp;
+      MODELS.wsp.W = w && w.source === 'llm-wsp' && w.accepted && live.weights_patched ? live.weights_patched : null;
+      if (model === 'wsp' && !MODELS.wsp.W) model = 'original';
+      renderHero(); renderTable(); renderSeeds(); renderJudge(); renderClaims();
+    }
+    async function loadLive() {
+      try {
+        const r = await fetch('/api/evals');
+        if (!r.ok) throw new Error(r.status);
+        live = await r.json();
+        const parts = [];
+        parts.push(live.wsp && live.wsp.source === 'llm-wsp' ? 'WSP report found' : 'no WSP report yet');
+        parts.push(live.judge ? 'Astra judge report found' : 'no Astra judge report yet');
+        $('status').textContent = 'Connected to the API, ' + parts.join(' and ') + '.';
+        applyLive();
+      } catch (e) {
+        $('status').textContent = 'API not reachable, so this page shows the saved results from the last run.';
+      }
+    }
 
-renderHero(); renderTable(); renderGroups(); renderJudge(); renderClaims();
-loadLive();
-</script>
+    applyLive(); renderGroups();
+    loadLive();
+  </script>
 </body>
+
 </html>

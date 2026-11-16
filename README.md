@@ -9,8 +9,10 @@ of distress, and barriers to care. Each has explicit disease triggers, short vis
 condition-specific debrief questions, a consistency check, and ICD-10 matching for the
 CDS Hooks demo. Source links are included in the profiles. Depression coverage does
 not extend to every mental illness; cardiac coverage does not cover every heart disorder.
-Demographic characteristics alone do not trigger these profiles. One condition is
-selected per encounter (the first detected profile); start a new encounter to change it.
+The visit matcher follows a condition named in the conversation or a configured combination
+of clues across recent turns. A condition alone is silent. A matching concern can produce
+one tip, once per condition and concern, up to three tips across the encounter. An explicit
+change of condition updates the topic used for the final reflection.
 Mention matching does not determine whether a condition is present, ruled out, or historical.
 These prompts do not provide emergency triage or replace clinical assessment.
 

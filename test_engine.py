@@ -55,14 +55,14 @@ def test_visit_gives_one_short_tip_and_no_question():
     assert s.queue == [] and s.qa == []
 
 
-def test_visit_profile_tip_when_no_concern_voiced():
+def test_visit_tracks_condition_quietly_when_no_concern_voiced():
     _, (r,) = run(["The patient has sickle cell disease."])
-    assert r["reply"].startswith("Sickle cell tip:") and r["just_flagged"]
+    assert r["flagged"] and r["reply"] is None
 
 
 def test_visit_is_silent_after_tip_and_patient_speech_is_not_judged():
     s, rs = run(["Sickle cell disease, pain crisis.", "It hurts a lot, my back and legs.", "How long will this take?"])
-    assert rs[0]["reply"] and rs[1]["reply"] is None and rs[2]["reply"] is None
+    assert all(r["reply"] is None for r in rs)
     assert s.qa == [] and s.phase == "visit"
 
 
@@ -75,9 +75,9 @@ def test_new_concern_during_visit_gets_its_own_tip_once():
 
 
 def test_tips_are_capped_per_visit():
-    s, rs = run(["Sickle cell crisis.", "He is drug seeking.", "Just ibuprofen.", "Normal vitals, looks comfortable."])
+    s, rs = run(["Sickle cell crisis.", "He is drug seeking.", "Just ibuprofen.", "SCD, normal vitals, looks comfortable.", "Depression, just lazy."])
     assert sum(1 for r in rs if r["reply"]) == 3
-    assert len(s.concerns) == 3  # the 4th concern is still recorded for the debrief
+    assert s.concerns == ["distress_label"]  # new topic is recorded even after the visit tip cap
 
 
 def test_end_visit_without_flag_closes_quietly():
@@ -156,7 +156,7 @@ def test_acs_detection_and_two_concerns():
 
 def test_acs_abbreviation_mi_and_dialogue():
     s, v, rs = debrief("Rule out MI in a 55-year-old man.", [ACS_SPECIFIC, ACS_PLAN, CF])
-    assert v["disease"]["id"] == "acs_chest_pain" and "ECG" in v["reply"]
+    assert v["disease"]["id"] == "acs_chest_pain" and v["reply"] is None
     assert "ECG" in rs[0]["reply"]
     assert rs[2]["reply"].startswith("Thanks.") and "consistency check" in rs[2]["reply"]
     assert rs[3]["done"] and "Chest pain" in rs[3]["note"]
@@ -229,7 +229,7 @@ def test_added_conditions_complete_debrief_and_note():
         s = new()
         r = ENGINE.turn(s, text)
         assert r['disease']['id'] == pid, (pid, r)
-        assert r['reply'] and '?' not in r['reply']
+        assert r['reply'] is None
         assert ENGINE.turn(s, 'We are reviewing the history.')['reply'] is None
         r = ENGINE.end_visit(s)
         assert r['phase'] == 'debrief' and len(s.queue) == 3
@@ -272,6 +272,36 @@ def test_added_condition_codes_and_aliases():
     for text, pid in [('HIV', 'hiv'), ('AIDS', 'hiv'), ('MDD', 'depression'),
                       ('TB', 'tuberculosis'), ('heart disease', 'acs_chest_pain')]:
         assert match_profile(PROFILES, text)['id'] == pid
+
+
+def test_tips_follow_context_across_turns():
+    scenarios = [
+        ('HbSS', 'Severe pain today, just ibuprofen.', 'sickle_cell'),
+        ('Chest pressure', 'It happens on exertion. Probably anxiety.', 'acs_chest_pain'),
+        ('She is postpartum.', 'High blood pressure, probably just nerves.', 'preeclampsia'),
+        ('Pelvic pain', 'Every cycle. It is just period pain.', 'endometriosis'),
+        ('Antiretroviral therapy', 'Review the viral load. Called noncompliant.', 'hiv'),
+        ('Low mood', 'Loss of interest. Described as lazy.', 'depression'),
+        ('Positive IGRA', 'Persistent cough. Called unreliable.', 'tuberculosis'),
+    ]
+    for first, second, pid in scenarios:
+        s, responses = run([first, second])
+        assert responses[0]['reply'] is None
+        assert s.profile_id == pid and responses[1]['reply'], pid
+
+
+def test_tips_respect_denials_and_topic_switches():
+    for statement in ['A sickle in the garden.', 'Sickle cell trait, normal vitals.',
+                      'ST depression on ECG.', 'HEARING AIDS are unreliable.',
+                      'Family history of HIV. Noncompliant.',
+                      'TB ruled out. Unreliable.', 'SCD, he is not drug seeking.',
+                      'Chest pain. The stress test is scheduled.']:
+        assert run([statement])[1][0]['reply'] is None, statement
+    s, replies = run(['Sickle cell disease.', 'Now discussing endometriosis.',
+                      'Normal ultrasound.', 'Normal ultrasound.'])
+    assert s.profile_id == 'endometriosis' and 'imaging' in replies[2]['reply']
+    assert replies[3]['reply'] is None
+    assert run(['HIV follow-up.', 'Separately, he is unreliable.'])[1][-1]['reply'] is None
 
 
 if __name__ == "__main__":

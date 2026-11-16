@@ -64,7 +64,7 @@ def test_session_flags_only_configured_conditions():
     flagged = client.post(f'/api/sessions/{sid}/turn', json={'text': 'The patient has sickle cell disease.'})
     assert flagged.status_code == 200 and flagged.json()['flagged'] is True
     assert flagged.json()['disease']['id'] == 'sickle_cell'
-    assert flagged.json()['phase'] == 'visit' and flagged.json()['reply'].endswith('.')
+    assert flagged.json()['phase'] == 'visit' and flagged.json()['reply'] is None
     ended = client.post(f'/api/sessions/{sid}/end')
     assert ended.status_code == 200 and ended.json()['phase'] == 'debrief' and '?' in ended.json()['reply']
     assert client.post('/api/sessions/nope/end').status_code == 404

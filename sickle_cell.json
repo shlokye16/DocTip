@@ -1,14 +1,15 @@
 {
   "id": "sickle_cell",
+  "context_cues": [["hemoglobin ss","hemoglobin sc","hbss","hbsc"],["pain episode","pain crisis","severe pain"]],
   "reflection_choices": ["Patient-reported pain","Individual pain plan","Prior treatment response"],
   "name": "Sickle cell disease",
   "triggers": [
     "sickle cell",
     "sickle-cell",
-    "sickle",
+    "sickle cell crisis",
+    "sickle crisis",
     "vaso-occlusive",
-    "vaso occlusive",
-    "pain crisis"
+    "vaso occlusive"
   ],
   "abbreviations": [
     "SCD",

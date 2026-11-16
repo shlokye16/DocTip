@@ -1,5 +1,6 @@
 {
   "id": "tuberculosis",
+  "context_cues": [["positive igra","positive quantiferon"],["sputum culture","persistent cough","chest x-ray"]],
   "reflection_choices": ["Exposure history","Symptoms","Test or imaging findings"],
   "name": "Tuberculosis",
   "priority": 1,

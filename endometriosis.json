@@ -1,5 +1,6 @@
 {
   "id": "endometriosis",
+  "context_cues": [["pelvic pain"],["each period","every period","with menstruation","every cycle","during periods"]],
   "reflection_choices": ["Pain timeline","Impact on daily life","Prior examination or imaging"],
   "name": "Endometriosis",
   "priority": 1,

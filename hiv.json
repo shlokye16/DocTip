@@ -1,5 +1,6 @@
 {
   "id": "hiv",
+  "context_cues": [["antiretroviral therapy","antiretroviral treatment"],["viral load","cd4"]],
   "reflection_choices": ["Exposure history","Testing history","Patient priorities"],
   "name": "HIV / AIDS",
   "priority": 1,

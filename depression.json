@@ -1,5 +1,6 @@
 {
   "id": "depression",
+  "context_cues": [["low mood","depressed mood"],["loss of interest","lost interest","no longer enjoy"]],
   "reflection_choices": ["Patient's description","Changes in daily functioning","Safety assessment"],
   "name": "Depression",
   "priority": 1,

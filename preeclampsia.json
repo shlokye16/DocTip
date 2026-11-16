@@ -1,5 +1,6 @@
 {
   "id": "preeclampsia",
+  "context_cues": [["postpartum","pregnant","after delivery"],["elevated blood pressure","high blood pressure","proteinuria"]],
   "reflection_choices": ["Reported symptoms","Blood pressure trend","Lab findings"],
   "name": "Preeclampsia",
   "priority": 1,

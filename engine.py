@@ -65,6 +65,57 @@ def find_concerns(profile, text):
     return [c for c in profile.get("concern_patterns", []) if re.search(c["pattern"], text, re.I)]
 
 
+def visit_context(profiles, recent, text):
+    """Use affirmative encounter clauses for matching. Keep the original transcript for notes."""
+    clauses = re.split(r"[.!?;\n]|\b(?:but|however)\b", text, flags=re.I)
+    active = []
+    excluded = set()
+    for clause in clauses:
+        if not clause.strip():
+            continue
+        clause = re.sub(r"\bsickle[- ]cell trait\b|\b(?:hearing|walking|mobility) aids\b|\b(?:ST[- ]segment|ST|respiratory) depression\b", "", clause, flags=re.I)
+        profile = match_profile(profiles, clause)
+        if re.search(r"\b(?:family history|mother has|father has|sister has|brother has|ruled out|negative for|no evidence of|denies|does not have|doesn't have|no longer suspect|hypothetically)\b|\bno\s+(?:history of\s+)?(?:sickle|chest pain|depression|hiv|tb|tuberculosis|endometriosis|preeclampsia|heart disease)\b", clause, re.I):
+            if profile:
+                excluded.add(profile["id"])
+                active = [part for part in active if not match_profile({profile["id"]: profile}, part)]
+            continue
+        if profile:
+            old = match_profile(profiles, ". ".join(active))
+            if old and old["id"] != profile["id"]:
+                active.clear()
+        active.append(clause.strip())
+    current = ". ".join(active)
+    named = match_profile(profiles, current)
+    if named or not current:
+        return named, current, excluded
+    context = " ".join([*recent, current]).lower()
+    candidates = []
+    for profile in profiles.values():
+        groups = profile.get("context_cues", [])
+        if groups and all(any(re.search(r"\b" + re.escape(cue) + r"\b", context)
+                              for cue in group) for group in groups):
+            if any(cue in current.lower() for group in groups for cue in group):
+                candidates.append(profile)
+    return candidates[0] if len(candidates) == 1 else None, current, excluded
+
+
+def visit_concerns(profile, text):
+    concerns = []
+    for concern in profile.get("concern_patterns", []):
+        for clause in re.split(r"[.!?;\n]|\bbut\b", text, flags=re.I):
+            if re.search(r"\bstress (?:test|echo)|\b(?:vaginal|nasal|wound) discharge\b", clause, re.I):
+                continue
+            match = re.search(concern["pattern"], clause, re.I)
+            if match and not re.search(
+                r"\b(?:not|never|isn't|is not|avoid|without|no evidence of|denies)\b(?:\s+[\w'-]+){0,4}\s*$",
+                clause[:match.start()], re.I
+            ):
+                concerns.append(concern)
+                break
+    return concerns
+
+
 def match_fhir_conditions(profiles, prefetch):
     """For the CDS Hooks endpoint: which flagged profiles match a prefetched Condition bundle?"""
     found = {}
@@ -169,6 +220,8 @@ class Session:
     phase: str = "visit"                           # visit -> debrief -> (closed)
     tips: list = field(default_factory=list)       # tip ids already shown this visit
     quick_reflection: bool = False
+    recent_turns: list = field(default_factory=list)
+    turns_since_anchor: int = 0
 
 
 class Engine:
@@ -211,24 +264,44 @@ class Engine:
     # ---- phase handlers
     def _visit_turn(self, s, text):
         """During the visit: at most one short tip per turn, never a question."""
-        first = s.profile_id is None
-        prof = match_profile(self.profiles, text) if first else self.profiles[s.profile_id]
+        topic_change = re.search(r"\b(?:different patient|another patient|changing (?:the )?subject|unrelated (?:issue|problem)|separately)\b", text, re.I)
+        if topic_change:
+            s.recent_turns.clear()
+            s.turns_since_anchor = 3
+        detected, current, excluded = visit_context(self.profiles, s.recent_turns, text)
+        if s.profile_id in excluded:
+            s.profile_id = None
+            s.concerns.clear()
+        if excluded:
+            s.recent_turns.clear()
+        if not current:
+            return self._resp(s, None)
+        previous = s.recent_turns[-1:] if not s.profile_id and not topic_change else []
+        s.recent_turns = (s.recent_turns + [current])[-3:]
+        first = detected is not None and detected["id"] != s.profile_id
+        if detected:
+            s.turns_since_anchor = 0
+        else:
+            s.turns_since_anchor += 1
+        prof = detected or self.profiles.get(s.profile_id)
+        if s.turns_since_anchor > 2 and not detected:
+            return self._resp(s, None)
         if not prof:
             return self._resp(s, None)  # stay quiet unless a flagged disease is mentioned
         if first:
+            s.recent_turns = [current]
+            s.concerns.clear()
             s.profile_id, s.initial_statement = prof["id"], text
-        matched = find_concerns(prof, text)
+        matched = visit_concerns(prof, ". ".join([*previous, current]))
         s.concerns += [c["id"] for c in matched if c["id"] not in s.concerns]
         tip = None
         if len(s.tips) < MAX_TIPS:
             for c in matched:
-                if c.get("tip") and c["id"] not in s.tips:
-                    s.tips.append(c["id"])
+                tip_id = (prof["id"], c["id"])
+                if c.get("tip") and tip_id not in s.tips:
+                    s.tips.append(tip_id)
                     tip = c["tip"]
                     break
-            if tip is None and first and prof.get("tip"):
-                s.tips.append("profile")
-                tip = prof["tip"]
         return self._resp(s, tip, just_flagged=first and tip is not None)
 
     def _debrief_turn(self, s, text):

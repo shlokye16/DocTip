@@ -1,5 +1,6 @@
 {
   "id": "acs_chest_pain",
+  "context_cues": [["chest pressure","chest heaviness","chest discomfort"],["on exertion","with exertion","troponin","ecg","ekg"]],
   "reflection_choices": ["Symptom history","ECG or test findings","Risk assessment"],
   "name": "Chest pain / acute coronary syndrome",
   "priority": 0,

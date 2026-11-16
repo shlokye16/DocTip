@@ -1,0 +1,81 @@
+{
+  "id": "depression",
+  "name": "Depression",
+  "priority": 1,
+  "triggers": [
+    "depression",
+    "major depressive disorder",
+    "major depression",
+    "clinical depression",
+    "depressive episode"
+  ],
+  "abbreviations": [
+    "MDD"
+  ],
+  "icd10_prefixes": [
+    "F32",
+    "F33"
+  ],
+  "intro": "A quick reasoning check for depression: let's keep the patient's own account, clinical findings, and access needs visible.",
+  "tip": "Depression tip: consider the patient's own account, symptom duration, functioning, and safety without interpreting distress through stereotypes.",
+  "guideline_note": "DRAFT, needs clinician review. NIMH describes varied depression presentations, including irritability and physical symptoms, and assessment of symptom duration, daily functioning, and alternative explanations. This profile covers depression, not all mental illnesses, and is not crisis triage.",
+  "sources": [
+    "https://www.nimh.nih.gov/health/publications/depression"
+  ],
+  "concern_patterns": [
+    {
+      "id": "distress_label",
+      "pattern": "aggressiv|hostile|attention[- ]seek|lazy|just (?:stress|sad)|snap out",
+      "question": "Could we distinguish observed behavior from interpretations, and review the patient's description of distress and functioning?",
+      "tip": "Tip: describe observed behavior and the patient's account before applying labels to distress.",
+      "followup": "Could you name the patient-specific history or findings supporting that reasoning?",
+      "min_words": 10
+    },
+    {
+      "id": "cultural_assumption",
+      "pattern": "(?:their|that|his|her) culture|people like (?:him|her|them)|doesn'?t speak english|language barrier",
+      "question": "How were language needs and the patient's own explanation explored before attributing symptoms or engagement to culture?",
+      "tip": "Tip: language and cultural context deserve individual exploration rather than assumptions about symptom credibility.",
+      "followup": "Could you name the patient-specific history or findings supporting that reasoning?",
+      "min_words": 10
+    }
+  ],
+  "questions": [
+    {
+      "id": "depression_base_1",
+      "kind": "base",
+      "text": "Could we review symptom duration, sleep, mood or loss of interest, daily functioning, and other explanations using the patient's own account?",
+      "followup": "Could you give a specific example from this patient's history, findings, or preferences?",
+      "min_words": 10
+    },
+    {
+      "id": "depression_base_2",
+      "kind": "base",
+      "text": "How have safety concerns, communication needs, patient preferences, and access to follow-up been considered in the assessment?",
+      "followup": "Could you give a specific example from this patient's history, findings, or preferences?",
+      "min_words": 10
+    },
+    {
+      "id": "depression_counterfactual",
+      "kind": "counterfactual",
+      "text": "As a consistency check, would the assessment remain the same if race, cultural background, gender, or insurance status differed while the clinical information stayed the same?",
+      "followup": "Which clinically relevant facts, if any, would change the reasoning?",
+      "min_words": 8
+    }
+  ],
+  "evidence_terms": [
+    "duration",
+    "sleep",
+    "mood",
+    "interest",
+    "function",
+    "history",
+    "safety",
+    "follow-up",
+    "interpreter",
+    "screen",
+    "patient",
+    "same",
+    "because"
+  ]
+}

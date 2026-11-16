@@ -1,7 +1,18 @@
 # Clinician Reasoning Check — SacHacks prototype
 
-An ambient-listening, clinician-facing reasoning prompt for three configured condition profiles:
-sickle cell disease, chest pain / acute coronary syndrome, and preeclampsia.
+An ambient-listening, clinician-facing reasoning prompt for seven configured condition profiles:
+sickle cell disease, chest pain / ischemic heart disease / acute coronary syndrome,
+preeclampsia, endometriosis, HIV/AIDS, depression, and tuberculosis.
+
+The additional profiles address pain dismissal, identity-based assumptions, interpretation
+of distress, and barriers to care. Each has explicit disease triggers, short visit tips,
+condition-specific debrief questions, a consistency check, and ICD-10 matching for the
+CDS Hooks demo. Source links are included in the profiles. Depression coverage does
+not extend to every mental illness; cardiac coverage does not cover every heart disorder.
+Demographic characteristics alone do not trigger these profiles. One condition is
+selected per encounter (the first detected profile); start a new encounter to change it.
+Mention matching does not determine whether a condition is present, ruled out, or historical.
+These prompts do not provide emergency triage or replace clinical assessment.
 
 **Demo only. Synthetic/demo use only. Not a diagnostic tool, not clinically validated, and not approved for production or EHR deployment.** The profile text is draft material and needs clinician review.
 

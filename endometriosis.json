@@ -1,0 +1,74 @@
+{
+  "id": "endometriosis",
+  "name": "Endometriosis",
+  "priority": 1,
+  "triggers": [
+    "endometriosis"
+  ],
+  "abbreviations": [],
+  "icd10_prefixes": [
+    "N80"
+  ],
+  "intro": "A quick reasoning check for endometriosis: let's keep the patient's own account, clinical findings, and access needs visible.",
+  "tip": "Endometriosis tip: pain history and effects on daily life deserve attention even when examination or imaging is normal.",
+  "guideline_note": "DRAFT, needs clinician review. WHO describes pain dismissal and stigma; NICE NG73 notes that a normal examination or ultrasound does not exclude endometriosis.",
+  "sources": [
+    "https://www.who.int/news-room/fact-sheets/detail/endometriosis",
+    "https://www.nice.org.uk/guidance/ng73/chapter/Recommendations"
+  ],
+  "concern_patterns": [
+    {
+      "id": "pain_dismissal",
+      "pattern": "just (?:period|menstrual|cramps)|normal (?:period|menstrual) pain|overreact|dramatic|hysteric",
+      "question": "Could we review the reported severity and functional impact before describing the pain as normal menstruation?",
+      "tip": "Tip: document pain severity and daily-life impact before attributing symptoms to normal menstruation.",
+      "followup": "Could you name the patient-specific history or findings supporting that reasoning?",
+      "min_words": 10
+    },
+    {
+      "id": "normal_imaging",
+      "pattern": "normal (?:ultrasound|scan|imaging)|(?:ultrasound|scan|imaging) (?:is |was )?normal",
+      "question": "How has persistent symptom burden been considered alongside the normal imaging findings?",
+      "tip": "Tip: normal imaging alone does not exclude endometriosis; keep the symptom history visible.",
+      "followup": "Could you name the patient-specific history or findings supporting that reasoning?",
+      "min_words": 10
+    }
+  ],
+  "questions": [
+    {
+      "id": "endometriosis_base_1",
+      "kind": "base",
+      "text": "Could we review the pain timeline, cycle-related symptoms, impact on daily life, and other possible explanations informing the assessment?",
+      "followup": "Could you give a specific example from this patient's history, findings, or preferences?",
+      "min_words": 10
+    },
+    {
+      "id": "endometriosis_base_2",
+      "kind": "base",
+      "text": "How do the patient's priorities and previous symptom evaluations inform the follow-up or referral discussion?",
+      "followup": "Could you give a specific example from this patient's history, findings, or preferences?",
+      "min_words": 10
+    },
+    {
+      "id": "endometriosis_counterfactual",
+      "kind": "counterfactual",
+      "text": "As a consistency check, would the assessment remain the same if gender, race, or insurance status differed while the clinical information stayed the same?",
+      "followup": "Which clinically relevant facts, if any, would change the reasoning?",
+      "min_words": 8
+    }
+  ],
+  "evidence_terms": [
+    "pain",
+    "cycle",
+    "period",
+    "pelvic",
+    "history",
+    "ultrasound",
+    "imaging",
+    "function",
+    "referral",
+    "follow-up",
+    "same",
+    "because"
+  ]
+}

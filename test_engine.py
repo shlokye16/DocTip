@@ -200,7 +200,8 @@ def test_pregnancy_alone_does_not_trigger():
 # ------------------------------------------------------------------ cross-profile
 def test_all_profiles_well_formed():
     import re
-    assert len(PROFILES) == 3
+    assert set(PROFILES) == {'sickle_cell', 'acs_chest_pain', 'preeclampsia',
+                             'endometriosis', 'hiv', 'depression', 'tuberculosis'}
     for d in PROFILES.values():
         qs = d["questions"]
         assert sum(q["kind"] == "counterfactual" for q in qs) == 1, d["id"]
@@ -217,6 +218,60 @@ def test_fhir_other_profiles():
     assert [d["id"] for d in match_fhir_conditions(PROFILES, b("O14.10"))] == ["preeclampsia"]
     assert [d["id"] for d in match_fhir_conditions(PROFILES, b("I21.4"))] == ["acs_chest_pain"]
     assert match_fhir_conditions(PROFILES, b("J06.9")) == []
+
+
+def test_added_conditions_complete_debrief_and_note():
+    examples = {'endometriosis': 'Endometriosis with persistent pelvic pain.',
+                'hiv': 'HIV follow-up visit.', 'depression': 'Major depressive disorder.',
+                'tuberculosis': 'Pulmonary TB evaluation.',
+                'acs_chest_pain': 'Coronary artery disease follow-up.'}
+    for pid, text in examples.items():
+        s = new()
+        r = ENGINE.turn(s, text)
+        assert r['disease']['id'] == pid, (pid, r)
+        assert r['reply'] and '?' not in r['reply']
+        assert ENGINE.turn(s, 'We are reviewing the history.')['reply'] is None
+        r = ENGINE.end_visit(s)
+        assert r['phase'] == 'debrief' and len(s.queue) == 3
+        for _ in range(6):
+            r = ENGINE.turn(s, VAGUE)
+            if r['done']:
+                break
+        assert r['done'] and len(s.qa) == 3 and r['note'], pid
+
+
+def test_new_concerns_and_false_positive_boundaries():
+    cases = [('endometriosis', 'Endometriosis, just period pain.', 'pain_dismissal'),
+             ('endometriosis', 'Endometriosis with normal ultrasound.', 'normal_imaging'),
+             ('hiv', 'HIV is only a gay disease.', 'identity_assumption'),
+             ('hiv', 'HIV, he is noncompliant.', 'adherence_blame'),
+             ('depression', 'Depression, she is just lazy.', 'distress_label'),
+             ('depression', 'Depression, a language barrier.', 'cultural_assumption'),
+             ('tuberculosis', 'TB, homeless so definitely infected.', 'identity_shortcut'),
+             ('tuberculosis', 'TB, he is unreliable.', 'access_blame')]
+    for pid, text, concern in cases:
+        s = new()
+        r = ENGINE.turn(s, text)
+        assert r['disease']['id'] == pid and concern in s.concerns
+        assert r['reply'] and '?' not in r['reply']
+        ENGINE.end_visit(s)
+        assert s.queue[0]['id'] == concern and s.queue[-1]['kind'] == 'counterfactual'
+    for text in ['A gay patient.', 'A homeless immigrant.', 'Menstrual cramps.',
+                 'Feeling sad today.', 'The aide aids the patient.', 'An endometriosislike symptom.']:
+        assert match_profile(PROFILES, text) is None, text
+    assert match_profile(PROFILES, 'Endometriosis with chest pain.')['id'] == 'endometriosis'
+
+
+def test_added_condition_codes_and_aliases():
+    for pid, code in [('endometriosis', 'N80.9'), ('hiv', 'B20'), ('hiv', 'Z21'),
+                      ('depression', 'F32.A'), ('depression', 'F33.1'),
+                      ('tuberculosis', 'A15.0'), ('tuberculosis', 'Z22.7'),
+                      ('acs_chest_pain', 'I25.10')]:
+        bundle = {'conditions': {'entry': [{'resource': {'code': {'coding': [{'code': code}]}}}]}}
+        assert [p['id'] for p in match_fhir_conditions(PROFILES, bundle)] == [pid]
+    for text, pid in [('HIV', 'hiv'), ('AIDS', 'hiv'), ('MDD', 'depression'),
+                      ('TB', 'tuberculosis'), ('heart disease', 'acs_chest_pain')]:
+        assert match_profile(PROFILES, text)['id'] == pid
 
 
 if __name__ == "__main__":

@@ -1,0 +1,86 @@
+{
+  "id": "tuberculosis",
+  "name": "Tuberculosis",
+  "priority": 1,
+  "triggers": [
+    "tuberculosis",
+    "pulmonary tb",
+    "latent tb",
+    "active tb"
+  ],
+  "abbreviations": [
+    "TB"
+  ],
+  "icd10_prefixes": [
+    "A15",
+    "A16",
+    "A17",
+    "A18",
+    "A19",
+    "Z22.7"
+  ],
+  "intro": "A quick reasoning check for tuberculosis: let's keep the patient's own account, clinical findings, and access needs visible.",
+  "tip": "Tuberculosis tip: distinguish infection from active disease using exposure history and clinical evidence, while considering barriers to care.",
+  "guideline_note": "DRAFT, needs clinician review. CDC distinguishes latent infection from active TB disease and identifies exposure, congregate settings, and immunosuppression as relevant factors. Nationality and housing context should inform an individual exposure history, not serve as diagnoses. This prompt is not an infection-control protocol.",
+  "sources": [
+    "https://www.cdc.gov/tb/hcp/clinical-overview/"
+  ],
+  "concern_patterns": [
+    {
+      "id": "identity_shortcut",
+      "pattern": "(?:immigrant|foreign|homeless).{0,40}(?:must|obvious|definitely)|(?:must|obvious|definitely).{0,40}(?:immigrant|foreign|homeless)|dirty|unclean",
+      "question": "Could we distinguish documented exposure and clinical findings from assumptions about nationality or housing?",
+      "tip": "Tip: nationality and housing labels are not diagnostic evidence; document individual exposures and findings.",
+      "followup": "Could you name the patient-specific history or findings supporting that reasoning?",
+      "min_words": 10
+    },
+    {
+      "id": "access_blame",
+      "pattern": "noncompliant|non-compliant|won'?t (?:return|follow|take)|unreliable|lost cause",
+      "question": "What practical barriers to returning or completing care have been discussed with the patient before engagement is characterized?",
+      "tip": "Tip: document practical barriers and available support before interpreting missed care as unwillingness.",
+      "followup": "Could you name the patient-specific history or findings supporting that reasoning?",
+      "min_words": 10
+    }
+  ],
+  "questions": [
+    {
+      "id": "tuberculosis_base_1",
+      "kind": "base",
+      "text": "Could we review the exposure history, symptoms, and available test or imaging findings supporting the distinction between TB infection and active disease?",
+      "followup": "Could you give a specific example from this patient's history, findings, or preferences?",
+      "min_words": 10
+    },
+    {
+      "id": "tuberculosis_base_2",
+      "kind": "base",
+      "text": "How have housing, transport, language, and continuity-of-care needs informed the follow-up discussion without assuming unwillingness to engage?",
+      "followup": "Could you give a specific example from this patient's history, findings, or preferences?",
+      "min_words": 10
+    },
+    {
+      "id": "tuberculosis_counterfactual",
+      "kind": "counterfactual",
+      "text": "As a consistency check, would the assessment remain the same if race, nationality, housing status, or income differed while the clinical information stayed the same?",
+      "followup": "Which clinically relevant facts, if any, would change the reasoning?",
+      "min_words": 8
+    }
+  ],
+  "evidence_terms": [
+    "exposure",
+    "cough",
+    "symptom",
+    "test",
+    "sputum",
+    "culture",
+    "imaging",
+    "x-ray",
+    "latent",
+    "active",
+    "transport",
+    "housing",
+    "follow-up",
+    "same",
+    "because"
+  ]
+}

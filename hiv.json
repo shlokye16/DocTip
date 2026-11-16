@@ -1,0 +1,80 @@
+{
+  "id": "hiv",
+  "name": "HIV / AIDS",
+  "priority": 1,
+  "triggers": [
+    "hiv",
+    "hiv/aids",
+    "human immunodeficiency virus",
+    "acquired immunodeficiency syndrome"
+  ],
+  "abbreviations": [
+    "AIDS"
+  ],
+  "icd10_prefixes": [
+    "B20",
+    "Z21"
+  ],
+  "intro": "A quick reasoning check for hiv / aids: let's keep the patient's own account, clinical findings, and access needs visible.",
+  "tip": "HIV tip: use individual exposure history, test results, and access needs rather than assumptions about identity.",
+  "guideline_note": "DRAFT, needs clinician review. CDC describes how stigma impedes testing and care and recommends routine HIV screening, with repeat testing informed by individual risk. HIV and AIDS are not interchangeable diagnoses.",
+  "sources": [
+    "https://www.cdc.gov/hiv/health-equity/",
+    "https://www.cdc.gov/hivnexus/hcp/diagnosis-testing/"
+  ],
+  "concern_patterns": [
+    {
+      "id": "identity_assumption",
+      "pattern": "gay disease|only (?:gay|homosexual)|(?:straight|heterosexual).{0,30}(?:no risk|not at risk)|doesn'?t look.{0,15}(?:hiv|aids)",
+      "question": "Could we separate assumptions about sexuality or appearance from the documented exposure and testing history?",
+      "tip": "Tip: sexual orientation or appearance alone does not establish or exclude HIV risk.",
+      "followup": "Could you name the patient-specific history or findings supporting that reasoning?",
+      "min_words": 10
+    },
+    {
+      "id": "adherence_blame",
+      "pattern": "noncompliant|non-compliant|irresponsible|won'?t (?:take|adhere)|brought (?:it|this) on",
+      "question": "What has the patient shared about medication access, side effects, privacy, or other barriers before adherence is characterized?",
+      "tip": "Tip: describe specific access or adherence barriers using the patient's account, without blame.",
+      "followup": "Could you name the patient-specific history or findings supporting that reasoning?",
+      "min_words": 10
+    }
+  ],
+  "questions": [
+    {
+      "id": "hiv_base_1",
+      "kind": "base",
+      "text": "Could we review the individual exposure history, testing timeline, and results that inform the assessment without assuming risk from identity?",
+      "followup": "Could you give a specific example from this patient's history, findings, or preferences?",
+      "min_words": 10
+    },
+    {
+      "id": "hiv_base_2",
+      "kind": "base",
+      "text": "How have the patient's preferences, confidentiality needs, and barriers to testing or ongoing care informed the plan?",
+      "followup": "Could you give a specific example from this patient's history, findings, or preferences?",
+      "min_words": 10
+    },
+    {
+      "id": "hiv_counterfactual",
+      "kind": "counterfactual",
+      "text": "As a consistency check, would the assessment remain the same if race, sexual orientation, gender identity, or insurance status differed while the clinical information stayed the same?",
+      "followup": "Which clinically relevant facts, if any, would change the reasoning?",
+      "min_words": 8
+    }
+  ],
+  "evidence_terms": [
+    "exposure",
+    "test",
+    "testing",
+    "history",
+    "viral load",
+    "cd4",
+    "confidential",
+    "access",
+    "follow-up",
+    "window",
+    "same",
+    "because"
+  ]
+}

@@ -18,7 +18,7 @@ def test_hosted_frontend():
 def test_health_and_profiles():
     response = client.get('/health')
     assert response.status_code == 200
-    assert response.json()['profiles_loaded'] == 3
+    assert response.json()['profiles_loaded'] == 7
 
 
 def test_discovery_and_cds_card():
@@ -36,6 +36,24 @@ def test_discovery_and_cds_card():
     assert result.status_code == 200
     assert len(result.json()['cards']) == 1
     assert 'Sickle cell' in result.json()['cards'][0]['summary']
+
+
+def test_added_conditions_api_and_cds_cards():
+    for text, pid, code in [('Endometriosis', 'endometriosis', 'N80.9'),
+                            ('HIV', 'hiv', 'B20'),
+                            ('Depression', 'depression', 'F32.A'),
+                            ('Tuberculosis', 'tuberculosis', 'A15.0'),
+                            ('Heart disease', 'acs_chest_pain', 'I25.10')]:
+        sid = client.post('/api/sessions').json()['session_id']
+        response = client.post(f'/api/sessions/{sid}/turn', json={'text': text})
+        assert response.status_code == 200 and response.json()['disease']['id'] == pid
+        assert client.post(f'/api/sessions/{sid}/end').json()['phase'] == 'debrief'
+        assert client.delete(f'/api/sessions/{sid}').status_code == 200
+        payload = {'hook': 'patient-view', 'context': {'patientId': 'synthetic'},
+                   'prefetch': {'conditions': {'entry': [{'resource': {'code': {
+                       'coding': [{'code': code}]}}}]}}}
+        cards = client.post('/cds-services/clinician-reasoning-check', json=payload).json()['cards']
+        assert len(cards) == 1 and cards[0]['indicator'] == 'info'
 
 
 def test_session_flags_only_configured_conditions():

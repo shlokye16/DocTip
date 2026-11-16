@@ -3,6 +3,11 @@
   "name": "Chest pain / acute coronary syndrome",
   "priority": 0,
   "triggers": [
+    "heart disease",
+    "coronary artery disease",
+    "coronary heart disease",
+    "ischemic heart disease",
+    "ischaemic heart disease",
     "acute coronary syndrome",
     "heart attack",
     "myocardial infarction",
@@ -20,17 +25,19 @@
     "I21",
     "I20.0",
     "I24",
+    "I25",
     "R07"
   ],
   "intro": "A quick pause here, if that's alright. Chest pain can sometimes be interpreted differently across patients, so let's make sure the assessment is anchored in this patient's symptoms, objective findings, and risk assessment.",
-  "tip": "Chest pain tip: ECG within 10 minutes of arrival, and serial troponins to guide disposition.",
-  "guideline_note": "DRAFT, needs clinician review. 2021 AHA/ACC chest pain guideline: obtain an ECG within 10 minutes of arrival for acute chest pain; use serial high-sensitivity troponin and a validated risk pathway to guide disposition. Women and some other groups may present with atypical symptoms and are at risk of underdiagnosis.",
+  "tip": "Heart disease tip: keep symptoms, ECG and other relevant findings visible; avoid dismissing cardiac concerns based on gender or race.",
+  "guideline_note": "DRAFT, needs clinician review. This profile covers ischemic heart disease and chest pain / ACS, not every cardiac disorder. The 2021 AHA/ACC guideline notes that chest pain is common in women and men with ACS, with accompanying symptoms also relevant. Assessment should use patient-specific history and clinically appropriate testing, without assuming a presentation is noncardiac because of gender or race. Acute testing pathways should not be applied automatically to stable chronic disease.",
+  "sources": ["https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2021/10/27/14/06/2021-guideline-for-chest-pain-gl_chestpain"],
   "concern_patterns": [
     {
       "id": "noncardiac_attribution",
       "pattern": "anxiety|anxious|panic|\\bgerd\\b|reflux|heartburn|indigestion|musculoskeletal|costochondritis|\\bstress|psychosomatic|hysteric",
       "question": "Could we review which objective findings, such as the ECG and serial troponins, support the current assessment of cardiac risk?",
-      "tip": "Tip: women and some other groups present atypically, so objective findings (ECG, serial troponins) should back a non-cardiac explanation.",
+      "tip": "Tip: objective findings and the individual symptom history should support a non-cardiac explanation, without assumptions based on gender or race.",
       "followup": "Would you share which tests or scores support that, such as the ECG, troponin, or a HEART score?",
       "min_words": 12
     },
@@ -47,7 +54,7 @@
     {
       "id": "acs_differential",
       "kind": "base",
-      "text": "Could we briefly revisit the differential and the specific ECG and troponin findings that are informing the plan?",
+      "text": "Could we briefly revisit the symptom history, differential, and relevant findings such as ECG or troponin results when indicated that are informing the plan?",
       "followup": "Can you name the specific ECG or troponin results you're relying on?",
       "min_words": 12
     },

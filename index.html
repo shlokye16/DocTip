@@ -652,7 +652,7 @@
       $('status').textContent = 'Checking microphone permission…';
       try {
         if (!navigator.mediaDevices?.getUserMedia) {
-          throw new Error('Microphone access is unavailable. Open the app at http://localhost:5173 in a supported browser, not as a local file.');
+          throw new Error('Microphone access is unavailable. Open the app using HTTPS (or localhost during development) in a supported browser.');
         }
         const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SR) throw new Error('Speech recognition is not supported here. Please use the latest Google Chrome.');

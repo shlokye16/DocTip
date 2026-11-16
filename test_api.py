@@ -5,6 +5,16 @@ from server import app
 client = TestClient(app)
 
 
+def test_hosted_frontend():
+    for path, content_type in [('/', 'text/html'), ('/index.html', 'text/html'),
+                               ('/evals.html', 'text/html'), ('/blob.png', 'image/png')]:
+        response = client.get(path)
+        assert response.status_code == 200
+        assert content_type in response.headers['content-type']
+    assert client.get('/server.py').status_code == 404
+    assert client.get('/.env').status_code == 404
+
+
 def test_health_and_profiles():
     response = client.get('/health')
     assert response.status_code == 200

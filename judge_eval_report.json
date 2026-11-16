@@ -1,0 +1,86 @@
+{
+  "n": 12,
+  "tp": 4,
+  "fp": 0,
+  "tn": 6,
+  "fn": 2,
+  "accuracy": 0.8333333333333334,
+  "precision": 1.0,
+  "recall": 0.6666666666666666,
+  "f1": 0.8,
+  "cases": [
+    {
+      "profile": "sickle_cell",
+      "expected": true,
+      "predicted": true,
+      "answer": "The patient has a pain score of 9/10, this is different from baseline, temperature is 38.4 C, and oxygen saturation is 91%."
+    },
+    {
+      "profile": "sickle_cell",
+      "expected": false,
+      "predicted": false,
+      "answer": "They come here all the time, so it is probably the same thing as usual."
+    },
+    {
+      "profile": "sickle_cell",
+      "expected": true,
+      "predicted": false,
+      "answer": "The individualized plan documents the patient's prior response, and I will document dose timing and reassess pain and respiratory status."
+    },
+    {
+      "profile": "sickle_cell",
+      "expected": false,
+      "predicted": false,
+      "answer": "I think this is enough because the patient looks comfortable."
+    },
+    {
+      "profile": "acs_chest_pain",
+      "expected": true,
+      "predicted": true,
+      "answer": "The ECG has no acute ischemic changes, serial high-sensitivity troponins are below the assay threshold, and the HEART score is 2."
+    },
+    {
+      "profile": "acs_chest_pain",
+      "expected": false,
+      "predicted": false,
+      "answer": "She is young and seems anxious, so I do not think it is cardiac."
+    },
+    {
+      "profile": "acs_chest_pain",
+      "expected": true,
+      "predicted": true,
+      "answer": "We have two non-rising troponins, a nonischemic ECG, documented risk score, and explicit return precautions."
+    },
+    {
+      "profile": "acs_chest_pain",
+      "expected": false,
+      "predicted": false,
+      "answer": "I usually discharge people like this."
+    },
+    {
+      "profile": "preeclampsia",
+      "expected": true,
+      "predicted": true,
+      "answer": "Blood pressures were 164/112 and 162/110 fifteen minutes apart, with headache and elevated liver enzymes."
+    },
+    {
+      "profile": "preeclampsia",
+      "expected": false,
+      "predicted": false,
+      "answer": "She is probably just stressed and pregnancy causes headaches."
+    },
+    {
+      "profile": "preeclampsia",
+      "expected": true,
+      "predicted": false,
+      "answer": "Repeat blood pressures, urine protein, platelets, creatinine, liver enzymes, and neurologic symptoms are documented."
+    },
+    {
+      "profile": "preeclampsia",
+      "expected": false,
+      "predicted": false,
+      "answer": "She says she feels okay now, so I am not concerned."
+    }
+  ],
+  "note": "Synthetic prompt-evaluation set; not clinical validation."
+}

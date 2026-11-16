@@ -1,0 +1,124 @@
+{
+ "source": "llm-wsp",
+ "model": "gpt-6-astra",
+ "reasoning": "Female and Medicaid have nonzero connections to every hidden unit, changing both ReLU activation patterns and the output logit. Zeroing only their two W1 rows removes all protected-attribute dependence while preserving every clinical-feature weight and all downstream weights and biases. This targeted edit exactly preserves predictions for female=0, medicaid=0; population calibration cannot be guaranteed without evaluation data.",
+ "fraction_of_weights_changed": 0.19753086419753085,
+ "max_abs_weight": 1.298,
+ "accepted": true,
+ "acceptance_criteria": {
+  "max_abs_weight_lte": 25.0,
+  "disparity_reduction_at_least": "50% and 0.01 absolute",
+  "accuracy_drop_at_most": 0.02,
+  "brier_increase_at_most": 0.02
+ },
+ "before": {
+  "seeds": [
+   99,
+   2026,
+   7301,
+   48117
+  ],
+  "mean_max_disparity": 0.20116018716282638,
+  "mean_sex_disparity": 0.20116018716282638,
+  "mean_insurance_disparity": 0.09030039012869712,
+  "mean_accuracy": 0.8644,
+  "mean_brier": 0.03649963126011223,
+  "per_seed": [
+   {
+    "seed": 99,
+    "disparity": {
+     "female": 0.20136977077678184,
+     "medicaid": 0.09064077812407649,
+     "max": 0.20136977077678184
+    },
+    "accuracy_vs_unbiased_need": 0.8628,
+    "brier_vs_unbiased_need": 0.03635002990855202
+   },
+   {
+    "seed": 2026,
+    "disparity": {
+     "female": 0.20170561524114805,
+     "medicaid": 0.0907433295660786,
+     "max": 0.20170561524114805
+    },
+    "accuracy_vs_unbiased_need": 0.864,
+    "brier_vs_unbiased_need": 0.036517923479838996
+   },
+   {
+    "seed": 7301,
+    "disparity": {
+     "female": 0.19978761604105424,
+     "medicaid": 0.08972662403664636,
+     "max": 0.19978761604105424
+    },
+    "accuracy_vs_unbiased_need": 0.872,
+    "brier_vs_unbiased_need": 0.03563990240321782
+   },
+   {
+    "seed": 48117,
+    "disparity": {
+     "female": 0.20177774659232142,
+     "medicaid": 0.09009082878798705,
+     "max": 0.20177774659232142
+    },
+    "accuracy_vs_unbiased_need": 0.8588,
+    "brier_vs_unbiased_need": 0.037490669248840085
+   }
+  ]
+ },
+ "after": {
+  "seeds": [
+   99,
+   2026,
+   7301,
+   48117
+  ],
+  "mean_max_disparity": 0.0,
+  "mean_sex_disparity": 0.0,
+  "mean_insurance_disparity": 0.0,
+  "mean_accuracy": 0.9868999999999999,
+  "mean_brier": 0.0002267637168220445,
+  "per_seed": [
+   {
+    "seed": 99,
+    "disparity": {
+     "female": 0.0,
+     "medicaid": 0.0,
+     "max": 0.0
+    },
+    "accuracy_vs_unbiased_need": 0.9884,
+    "brier_vs_unbiased_need": 0.0002232041653328618
+   },
+   {
+    "seed": 2026,
+    "disparity": {
+     "female": 0.0,
+     "medicaid": 0.0,
+     "max": 0.0
+    },
+    "accuracy_vs_unbiased_need": 0.9862,
+    "brier_vs_unbiased_need": 0.00022521998486913026
+   },
+   {
+    "seed": 7301,
+    "disparity": {
+     "female": 0.0,
+     "medicaid": 0.0,
+     "max": 0.0
+    },
+    "accuracy_vs_unbiased_need": 0.9878,
+    "brier_vs_unbiased_need": 0.00021911020782981437
+   },
+   {
+    "seed": 48117,
+    "disparity": {
+     "female": 0.0,
+     "medicaid": 0.0,
+     "max": 0.0
+    },
+    "accuracy_vs_unbiased_need": 0.9852,
+    "brier_vs_unbiased_need": 0.00023952050925637157
+   }
+  ]
+ }
+}

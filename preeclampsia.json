@@ -1,0 +1,98 @@
+{
+  "id": "preeclampsia",
+  "name": "Preeclampsia",
+  "priority": 1,
+  "triggers": [
+    "preeclampsia",
+    "pre-eclampsia",
+    "eclampsia",
+    "gestational hypertension",
+    "postpartum hypertension",
+    "pregnancy-induced hypertension",
+    "postpartum headache"
+  ],
+  "abbreviations": [
+    "HELLP",
+    "PIH"
+  ],
+  "icd10_prefixes": [
+    "O11",
+    "O13",
+    "O14",
+    "O15"
+  ],
+  "intro": "A quick pause here, if that's alright. Pregnancy and postpartum symptoms deserve careful attention, and we want to make sure the assessment is based on this patient's findings rather than assumptions about how symptoms may present.",
+  "tip": "Preeclampsia tip: it can appear after delivery too. Repeat blood pressures, urine protein, and labs help assess it.",
+  "guideline_note": "DRAFT, needs clinician review. ACOG: preeclampsia is suggested by blood pressure of 140/90 or higher on two occasions at least 4 hours apart after 20 weeks of gestation, with proteinuria or severe features (for example low platelets, elevated liver enzymes or creatinine, severe headache, visual symptoms); severe-range blood pressure is 160/110 or higher. Preeclampsia can also present after delivery.",
+  "concern_patterns": [
+    {
+      "id": "benign_explanation",
+      "pattern": "just (?:a )?(?:headache|swelling|anxiety|stress|nerves)|normal (?:pregnancy )?swelling|white[- ]coat|anxiety|reassur|normal for pregnancy|nothing to worry",
+      "question": "Could we review which objective checks help assess the possibility of preeclampsia: repeat blood pressures, urine protein, platelets, liver enzymes, creatinine, and symptoms like headache or vision changes?",
+      "tip": "Tip: check headache or swelling against repeat blood pressures, urine protein, platelets, and liver enzymes before calling it benign.",
+      "followup": "Could you share which of those checks have been completed, and what were the results?",
+      "min_words": 12
+    },
+    {
+      "id": "early_discharge",
+      "pattern": "discharg\\w*|send (?:her|them) home|\\b(?:bp|blood pressure|pressure) (?:was |is )?(?:fine|ok|okay|normal)|(?:single|one) (?:bp|blood pressure)",
+      "question": "Would you walk me through the monitoring plan, including repeat blood pressures and the warning signs that have been discussed?",
+      "tip": "Tip: confirm a repeat blood pressure plan and warning signs, since preeclampsia can appear after delivery.",
+      "followup": "When will blood pressure be rechecked, and what return precautions will she get?",
+      "min_words": 12
+    }
+  ],
+  "questions": [
+    {
+      "id": "pe_differential",
+      "kind": "base",
+      "text": "Could we review the differential together and the specific blood pressure readings, labs, and symptoms informing the assessment?",
+      "followup": "Can you name the specific blood pressures or lab results you're relying on?",
+      "min_words": 12
+    },
+    {
+      "id": "pe_plan",
+      "kind": "base",
+      "text": "Would you walk me through the monitoring and follow-up plan, including when blood pressure will be checked again and which warning signs have been discussed?",
+      "followup": "When will blood pressure be rechecked, and what return precautions will she get?",
+      "min_words": 10
+    },
+    {
+      "id": "pe_counterfactual",
+      "kind": "counterfactual",
+      "text": "As a consistency check, would the plan remain the same if the patient's race or insurance status were different but the clinical findings were unchanged?",
+      "followup": "What specifically would make your plan different, if anything?",
+      "min_words": 8
+    }
+  ],
+  "evidence_terms": [
+    "blood pressure",
+    "bp",
+    "urine protein",
+    "protein",
+    "proteinuria",
+    "platelet",
+    "liver",
+    "transaminase",
+    "creatinine",
+    "headache",
+    "vision",
+    "visual",
+    "ruq",
+    "labs",
+    "differential",
+    "magnesium",
+    "recheck",
+    "repeat",
+    "return",
+    "precaution",
+    "postpartum",
+    "weeks",
+    "gestation",
+    "because",
+    "same",
+    "guideline",
+    "severe features",
+    "hours"
+  ]
+}

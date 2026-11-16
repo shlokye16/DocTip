@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clinician Reasoning Check</title>
+  <style>
+    :root {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #172033;
+      background: #f3f6fc;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 34px 22px;
+      display: grid;
+      place-items: center
+    }
+
+    .shell {
+      width: min(1160px, 100%);
+      min-height: calc(100vh - 68px);
+      background: #fff;
+      border: 1px solid #dce5f4;
+      border-radius: 34px;
+      padding: 42px 44px 34px;
+      box-shadow: 0 24px 70px rgba(35, 61, 106, .07);
+      display: flex;
+      flex-direction: column
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px
+    }
+
+    h1 {
+      font-size: clamp(23px, 3vw, 30px);
+      letter-spacing: -1.2px;
+      margin: 0;
+      font-weight: 760
+    }
+
+    .tag {
+      border-radius: 999px;
+      background: #f1f4f9;
+      color: #596982;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-height: 350px;
+      padding: 22px 0 18px
+    }
+
+    .blob-wrap {
+      width: min(310px, 55vw);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      position: relative;
+      filter: drop-shadow(0 22px 28px rgba(42, 103, 204, .12))
+    }
+
+    .blob {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      animation: float 5s ease-in-out infinite;
+      transition: filter .5s ease;
+      transform-origin: center
+    }
+
+    .blob-wrap:after {
+      content: "";
+      position: absolute;
+      bottom: 3%;
+      left: 22%;
+      width: 56%;
+      height: 9%;
+      background: rgba(74, 103, 151, .12);
+      filter: blur(17px);
+      border-radius: 50%;
+      animation: shadow 5s ease-in-out infinite;
+      z-index: 0
+    }
+
+    .blob {
+      position: relative;
+      z-index: 1
+    }
+
+    .status {
+      font-size: 18px;
+      color: #65738d;
+      text-align: center;
+      margin: 14px 0 0;
+      min-height: 28px
+    }
+
+    .shell.listening .blob {
+      animation: float 3.6s ease-in-out infinite, listenGlow 2.2s ease-in-out infinite
+    }
+
+    .shell.flagged .blob {
+      filter: hue-rotate(193deg) saturate(1.3) brightness(1.25);
+      animation: heartbeat 1.05s ease-in-out infinite
+    }
+
+    .shell.flagged .blob-wrap {
+      filter: drop-shadow(0 18px 30px rgb(255, 183, 0))
+    }
+
+    .shell.flagged .status {
+      color: #ffae00
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-2deg) scale(1)
+      }
+
+      50% {
+        transform: translateY(-13px) rotate(2deg) scale(1.025)
+      }
+    }
+
+    @keyframes shadow {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: .7
+      }
+
+      50% {
+        transform: scale(.82);
+        opacity: .4
+      }
+    }
+
+    @keyframes listenGlow {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .9
+      }
+    }
+
+    @keyframes heartbeat {
+
+      0%,
+      100% {
+        transform: scale(1)
+      }
+
+      12% {
+        transform: scale(1.055)
+      }
+
+      24% {
+        transform: scale(1)
+      }
+
+      38% {
+        transform: scale(1.035)
+      }
+
+      52% {
+        transform: scale(1)
+      }
+    }
+
+    .panel {
+      background: #f7f9fe;
+      border: 1px solid #e5ebf6;
+      border-radius: 22px;
+      padding: 26px 28px;
+      min-height: 138px;
+      max-height: 300px;
+      overflow: auto
+    }
+
+    .panel-label {
+      font-size: 13px;
+      letter-spacing: 1.2px;
+      font-weight: 800;
+      color: #69758e;
+      margin-bottom: 10px
+    }
+
+    .feed {
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .bubble {
+      padding: 15px 17px;
+      border-radius: 16px;
+      background: #eaf1ff;
+      color: #1c2941;
+      line-height: 1.55;
+      font-size: 17px
+    }
+
+    .bubble.system {
+      background: #eaf1ff
+    }
+
+    .bubble.transcript {
+      background: #fff;
+      border: 1px solid #e4eaf4
+    }
+
+    .bubble .who {
+      font-size: 11px;
+      letter-spacing: .9px;
+      font-weight: 800;
+      color: #71809a;
+      margin-bottom: 4px
+    }
+
+    .bubble.prompt {
+      border-left: 4px solid #4a78d0
+    }
+
+    .bubble.note {
+      background: #fff7df;
+      border: 1px solid #f2df9f;
+      white-space: pre-wrap
+    }
+
+    .bubble.tip {
+      background: #fff7df;
+      border-left: 4px solid #ffae00
+    }
+
+    .answer {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px
+    }
+
+    .answer input {
+      flex: 1;
+      border: 1px solid #dce5f4;
+      border-radius: 15px;
+      padding: 13px 16px;
+      font: inherit;
+      font-size: 15px
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 20px;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 15px;
+      padding: 15px 21px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      background: #edf1f8;
+      color: #34445e
+    }
+
+    .btn.primary {
+      background: #315fd0;
+      color: white
+    }
+
+    .btn.danger {
+      background: #fff0ed;
+      color: #a23a2c
+    }
+
+    .btn:disabled {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
+    .consent {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #77849b;
+      margin: 22px 0 0
+    }
+
+    .fine {
+      font-size: 12px;
+      color: #8994a8;
+      margin-top: 8px
+    }
+
+    .meter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #697892;
+      font-size: 13px;
+      margin-left: auto
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #9aa6ba
+    }
+
+    .listening .dot {
+      background: #21a675;
+      box-shadow: 0 0 0 5px rgba(33, 166, 117, .12)
+    }
+
+    .flagged .dot {
+      background: #ffb700;
+      box-shadow: 0 0 0 5px rgba(229, 173, 36, .15)
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    @media(max-width:700px) {
+      body {
+        padding: 12px
+      }
+
+      .shell {
+        min-height: calc(100vh - 24px);
+        padding: 24px 18px;
+        border-radius: 24px
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column
+      }
+
+      .hero {
+        min-height: 280px
+      }
+
+      .blob-wrap {
+        width: min(240px, 58vw)
+      }
+
+      .panel {
+        padding: 19px
+      }
+
+      .bubble {
+        font-size: 15px
+      }
+
+      .meter {
+        margin-left: 0;
+        width: 100%
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shell" id="shell">
+    <header>
+      <h1>Clinician Reasoning Check</h1>
+      <div class="tag">Synthetic demo · Not for clinical use</div>
+    </header>
+    <section class="hero" aria-live="polite">
+      <div class="blob-wrap"><img class="blob" src="/blob.png" alt="Animated blue assistant orb"></div>
+      <p class="status" id="status">Ready when you are. Start listening to the conversation.</p>
+    </section>
+    <section class="panel" aria-live="polite">
+      <div class="panel-label" id="panelLabel">LIVE CONVERSATION</div>
+      <div class="feed" id="feed">
+        <div class="bubble system">
+          <div class="who">ASSISTANT</div>I’ll listen during the visit and show a quick tip (with a soft beep) when a
+          configured condition comes up. When the visit ends, press End visit and we’ll talk it through.
+        </div>
+      </div>
+    </section>
+    <div class="controls">
+      <button class="btn primary" id="startBtn">Start listening</button>
+      <button class="btn danger hidden" id="stopBtn">Stop listening</button>
+      <button class="btn primary hidden" id="endBtn">End visit</button>
+      <button class="btn" id="clearBtn">New encounter</button>
+      <div class="meter"><span class="dot"></span><span id="micState">Microphone off</span></div>
+    </div>
+    <form class="answer hidden" id="answerForm">
+      <input id="answerInput" placeholder="Type your answer (or just speak)" autocomplete="off">
+      <button class="btn primary">Send</button>
+    </form>
+    <p class="consent"><strong>Before starting:</strong> obtain appropriate consent from everyone being
+      recorded/listened to and follow your institution’s privacy policies. This browser demo uses speech recognition to
+      convert nearby speech into text and sends recognized text to the local demo server; it does not intentionally
+      store or upload raw audio. Speaker identification is not supported, so the transcript may mix clinician and
+      patient speech. Review the transcript and prompts; do not enter real patient information.</p>
+    <p class="fine">Not connected to an EHR. No diagnosis or treatment recommendations. Disease profiles and evaluation
+      criteria are draft demo content requiring clinical review.</p>
+  </main>
+  <script>
+    const $ = id => document.getElementById(id);
+    const shell = $('shell');
+    let recognition = null, sessionId = null, listening = false, requestBusy = false, flagged = false, lastSent = '', transcriptQueue = [];
+    let restarting = false, restartTimer = null, startWatchdog = null;
+    let phase = 'visit', audioCtx = null, tipTimer = null, noteShown = false;
+    const TIP_SECONDS = 8; // how long the blob stays amber after a tip
+
+    // Soft, low, short tone so the room isn't alarmed. Tweak freq/gain/length here.
+    function beep() {
+      if (!audioCtx) return;
+      const t = audioCtx.currentTime, o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.value = 260;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.05, t + 0.04);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+      o.connect(g).connect(audioCtx.destination);
+      o.start(t);
+      o.stop(t + 0.4);
+    }
+
+    function addBubble(kind, who, text) {
+      const b = document.createElement('div');
+      b.className = 'bubble ' + kind;
+      const w = document.createElement('div');
+      w.className = 'who';
+      w.textContent = who;
+      b.append(w, document.createTextNode(text));
+      $('feed').appendChild(b);
+      $('feed').scrollTop = $('feed').scrollHeight;
+    }
+    function setMode(mode) {
+      shell.classList.remove('listening', 'flagged');
+      if (mode) shell.classList.add(mode);
+      flagged = mode === 'flagged';
+    }
+    async function createSession() {
+      const r = await fetch('/api/sessions', { method: 'POST' });
+      if (!r.ok) throw new Error('Could not start a session. Check that the local API server is running.');
+      const d = await r.json();
+      sessionId = d.session_id;
+    }
+    function processTranscript(text) {
+      const clean = (text || '').trim();
+      if (!clean || clean === lastSent || !sessionId) return;
+      lastSent = clean;
+      transcriptQueue.push(clean);
+      drainQueue();
+    }
+    async function drainQueue() {
+      if (requestBusy || !transcriptQueue.length || !sessionId) return;
+      requestBusy = true;
+      const clean = transcriptQueue.shift();
+      addBubble('transcript', phase === 'debrief' ? 'YOU' : 'CONVERSATION', clean);
+      try {
+        const r = await fetch(`/api/sessions/${sessionId}/turn`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: clean })
+        });
+        if (!r.ok) throw new Error(`Conversation check failed (HTTP ${r.status}).`);
+        const d = await r.json();
+        handleReply(d);
+      } catch (e) {
+        addBubble('note', 'CONNECTION', e.message + ' Check that the API server is still running.');
+      } finally {
+        requestBusy = false;
+        if (transcriptQueue.length) drainQueue();
+      }
+    }
+
+    function handleReply(d) {
+      if (!d.reply) return;
+      if (d.phase === 'visit') {  // quick tip during the visit: beep + short card, no questions
+        beep();
+        addBubble('tip', 'QUICK TIP', d.reply);
+        $('status').textContent = `Quick tip on screen${d.disease?.name ? ' · ' + d.disease.name : ''}.`;
+        if (listening) setMode('flagged');
+        clearTimeout(tipTimer);
+        tipTimer = setTimeout(() => { if (listening && phase === 'visit') setMode('listening'); }, TIP_SECONDS * 1000);
+      } else {
+        addBubble('prompt', 'DEBRIEF', d.reply);
+        if (d.phase === 'closed' && d.note && !noteShown) { noteShown = true; addBubble('note', 'REASONING NOTE', d.note); }
+        if (d.phase === 'closed') $('answerForm').classList.add('hidden');
+      }
+    }
+    async function endVisit() {
+      if (!sessionId || phase !== 'visit') return;
+      $('endBtn').disabled = true;
+      clearTimeout(tipTimer);
+      setMode(listening ? 'listening' : '');
+      try {
+        const r = await fetch(`/api/sessions/${sessionId}/end`, { method: 'POST' });
+        if (!r.ok) throw new Error(`Could not end the visit (HTTP ${r.status}).`);
+        const d = await r.json();
+        phase = d.phase === 'debrief' ? 'debrief' : 'visit';
+        $('endBtn').classList.add('hidden');
+        $('panelLabel').textContent = 'DEBRIEF';
+        $('status').textContent = d.phase === 'debrief' ? 'Visit over. Answer by voice or type below.' : (d.reply || 'Visit ended.');
+        if (d.phase === 'debrief') $('answerForm').classList.remove('hidden');
+        if (d.reply) addBubble(d.phase === 'debrief' ? 'prompt' : 'system', d.phase === 'debrief' ? 'DEBRIEF' : 'ASSISTANT', d.reply);
+      } catch (e) {
+        addBubble('note', 'CONNECTION', e.message);
+      } finally {
+        $('endBtn').disabled = false;
+      }
+    }
+
+    function stopRecognitionOnly() {
+      if (restartTimer) { clearTimeout(restartTimer); restartTimer = null; }
+      if (startWatchdog) { clearTimeout(startWatchdog); startWatchdog = null; }
+      restarting = false;
+      const old = recognition;
+      recognition = null;
+      if (old) {
+        old.onend = null;
+        try { old.stop(); } catch (_) { }
+      }
+    }
+    function stop(message = 'Listening stopped.') {
+      listening = false;
+      stopRecognitionOnly();
+      setMode('');
+      $('startBtn').classList.remove('hidden');
+      $('stopBtn').classList.add('hidden');
+      $('micState').textContent = 'Microphone off';
+      $('status').textContent = message;
+    }
+    function recognitionErrorMessage(code) {
+      const messages = {
+        'not-allowed': 'Microphone permission was denied. Allow microphone access for this site, then try again.',
+        'service-not-allowed': 'The browser speech service is blocked. Check browser permissions or try Chrome.',
+        'audio-capture': 'No usable microphone was found. Check that your microphone is connected and not in use by another app.',
+        'network': 'The browser speech-recognition service could not connect. Check your internet connection and try again.',
+        'no-speech': 'No speech was detected. Keep the microphone close and speak normally.',
+        'language-not-supported': 'The selected recognition language is not supported by this browser.'
+      };
+      return messages[code] || `Speech recognition reported: ${code}.`;
+    }
+    function scheduleRecognitionRestart() {
+      if (!listening || restarting || restartTimer) return;
+      restarting = true;
+      restartTimer = setTimeout(() => {
+        restartTimer = null;
+        restarting = false;
+        if (!listening || !recognition) return;
+        try {
+          recognition.start();
+          $('status').textContent = 'Reconnecting to the microphone…';
+        } catch (err) {
+          // InvalidStateError can occur briefly while the browser is shutting down
+          // the previous recognition session. Retry once through the normal cycle.
+          if (err.name === 'InvalidStateError') {
+            scheduleRecognitionRestart();
+          } else {
+            stop(`Could not restart speech recognition: ${err.message || err.name}.`);
+            addBubble('note', 'MICROPHONE', `Speech recognition could not restart (${err.name || 'error'}). Press Start listening to try again.`);
+          }
+        }
+      }, 800);
+    }
+    function startRecognition() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) throw new Error('This browser does not support speech recognition. Open the app in the latest Google Chrome, or use the typed test interface.');
+      recognition = new SR();
+      recognition.lang = 'en-US';
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.maxAlternatives = 1;
+      recognition.onstart = () => {
+        if (startWatchdog) { clearTimeout(startWatchdog); startWatchdog = null; }
+        $('micState').textContent = 'Microphone active';
+        $('status').textContent = 'I’m listening. Speak naturally; the live transcript will appear below.';
+      };
+      recognition.onresult = e => {
+        let finalText = '', interim = '';
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          const t = e.results[i][0].transcript;
+          if (e.results[i].isFinal) finalText += t + ' ';
+          else interim += t;
+        }
+        if (interim) $('status').textContent = 'Hearing: ' + interim.slice(-110);
+        if (finalText) processTranscript(finalText);
+      };
+      recognition.onerror = e => {
+        const msg = recognitionErrorMessage(e.error);
+        $('status').textContent = msg;
+        if (e.error === 'not-allowed' || e.error === 'service-not-allowed' || e.error === 'audio-capture' || e.error === 'language-not-supported') {
+          addBubble('note', 'MICROPHONE', msg);
+          stop(msg);
+        } else if (e.error === 'network') {
+          addBubble('note', 'SPEECH SERVICE', msg);
+          // The browser may recover after a transient network interruption.
+        }
+      };
+      recognition.onend = () => {
+        if (listening) {
+          $('micState').textContent = 'Reconnecting…';
+          scheduleRecognitionRestart();
+        } else {
+          $('micState').textContent = 'Microphone off';
+        }
+      };
+      try {
+        recognition.start();
+        startWatchdog = setTimeout(() => {
+          if (listening && $('micState').textContent !== 'Microphone active') {
+            $('status').textContent = 'The browser has not confirmed microphone startup yet. Check the site microphone permission.';
+          }
+        }, 3500);
+      } catch (err) {
+        recognition = null;
+        throw new Error(`Browser could not start speech recognition (${err.name || 'error'}): ${err.message || 'Check microphone permission and try again.'}`);
+      }
+    }
+    async function start() {
+      $('startBtn').disabled = true;
+      $('status').textContent = 'Checking microphone permission…';
+      try {
+        if (!navigator.mediaDevices?.getUserMedia) {
+          throw new Error('Microphone access is unavailable. Open the app at http://localhost:5173 in a supported browser, not as a local file.');
+        }
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) throw new Error('Speech recognition is not supported here. Please use the latest Google Chrome.');
+        // Explicitly request permission on the user click, then release this
+        // preflight stream before the browser speech service opens its own input.
+        let permissionStream;
+        try {
+          permissionStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch (err) {
+          const reason = err.name === 'NotAllowedError' ? 'Microphone permission was denied. Allow microphone access in the browser address bar and try again.' :
+            err.name === 'NotFoundError' ? 'No microphone was found. Connect or enable a microphone and try again.' :
+              `Could not access the microphone (${err.name || 'error'}).`;
+          throw new Error(reason);
+        } finally {
+          if (permissionStream) permissionStream.getTracks().forEach(track => track.stop());
+        }
+        audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        audioCtx.resume();
+        if (!sessionId) { await createSession(); phase = 'visit'; }
+        listening = true;
+        setMode('listening');
+        $('startBtn').classList.add('hidden');
+        $('stopBtn').classList.remove('hidden');
+        if (phase === 'visit') $('endBtn').classList.remove('hidden');
+        $('micState').textContent = 'Starting microphone…';
+        $('status').textContent = 'Microphone permission granted. Starting speech recognition…';
+        startRecognition();
+      } catch (e) {
+        listening = false;
+        setMode('');
+        $('status').textContent = e.message;
+        addBubble('note', 'LISTENING ERROR', e.message);
+        $('startBtn').classList.remove('hidden');
+        $('stopBtn').classList.add('hidden');
+        $('micState').textContent = 'Microphone off';
+      } finally {
+        $('startBtn').disabled = false;
+      }
+    }
+    async function reset() {
+      stop('New encounter ready.');
+      if (sessionId) fetch(`/api/sessions/${sessionId}`, { method: 'DELETE' }).catch(() => { });
+      sessionId = null; lastSent = ''; requestBusy = false; transcriptQueue = []; flagged = false; phase = 'visit'; noteShown = false; setMode('');
+      clearTimeout(tipTimer);
+      $('endBtn').classList.add('hidden');
+      $('answerForm').classList.add('hidden');
+      $('feed').innerHTML = '<div class="bubble system"><div class="who">ASSISTANT</div>New encounter ready. Start listening when everyone has consented.</div>';
+      $('panelLabel').textContent = 'LIVE CONVERSATION';
+      $('status').textContent = 'Ready when you are. Start listening to the conversation.';
+    }
+    $('startBtn').addEventListener('click', start);
+    $('stopBtn').addEventListener('click', () => stop());
+    $('clearBtn').addEventListener('click', reset);
+    $('endBtn').addEventListener('click', endVisit);
+    $('answerForm').addEventListener('submit', e => {
+      e.preventDefault();
+      processTranscript($('answerInput').value);
+      $('answerInput').value = '';
+    });
+  </script>
+</body>
+
+</html>

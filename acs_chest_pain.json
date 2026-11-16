@@ -1,0 +1,97 @@
+{
+  "id": "acs_chest_pain",
+  "name": "Chest pain / acute coronary syndrome",
+  "priority": 0,
+  "triggers": [
+    "acute coronary syndrome",
+    "heart attack",
+    "myocardial infarction",
+    "nstemi",
+    "stemi",
+    "unstable angina",
+    "angina",
+    "chest pain",
+    "chest tightness"
+  ],
+  "abbreviations": [
+    "MI"
+  ],
+  "icd10_prefixes": [
+    "I21",
+    "I20.0",
+    "I24",
+    "R07"
+  ],
+  "intro": "A quick pause here, if that's alright. Chest pain can sometimes be interpreted differently across patients, so let's make sure the assessment is anchored in this patient's symptoms, objective findings, and risk assessment.",
+  "tip": "Chest pain tip: ECG within 10 minutes of arrival, and serial troponins to guide disposition.",
+  "guideline_note": "DRAFT, needs clinician review. 2021 AHA/ACC chest pain guideline: obtain an ECG within 10 minutes of arrival for acute chest pain; use serial high-sensitivity troponin and a validated risk pathway to guide disposition. Women and some other groups may present with atypical symptoms and are at risk of underdiagnosis.",
+  "concern_patterns": [
+    {
+      "id": "noncardiac_attribution",
+      "pattern": "anxiety|anxious|panic|\\bgerd\\b|reflux|heartburn|indigestion|musculoskeletal|costochondritis|\\bstress|psychosomatic|hysteric",
+      "question": "Could we review which objective findings, such as the ECG and serial troponins, support the current assessment of cardiac risk?",
+      "tip": "Tip: women and some other groups present atypically, so objective findings (ECG, serial troponins) should back a non-cardiac explanation.",
+      "followup": "Would you share which tests or scores support that, such as the ECG, troponin, or a HEART score?",
+      "min_words": 12
+    },
+    {
+      "id": "early_discharge",
+      "pattern": "discharg\\w*|send (?:her|him|them) home|no (?:further )?work-?up|(?:single|one) troponin|troponin (?:was |is )?negative",
+      "question": "Would you walk me through the objective criteria, such as serial troponins and a risk score, informing the disposition?",
+      "tip": "Tip: disposition should rest on serial troponins and a validated risk score, not symptoms alone.",
+      "followup": "Which criteria or risk score are you relying on for discharge?",
+      "min_words": 12
+    }
+  ],
+  "questions": [
+    {
+      "id": "acs_differential",
+      "kind": "base",
+      "text": "Could we briefly revisit the differential and the specific ECG and troponin findings that are informing the plan?",
+      "followup": "Can you name the specific ECG or troponin results you're relying on?",
+      "min_words": 12
+    },
+    {
+      "id": "acs_risk",
+      "kind": "base",
+      "text": "Would you walk me through the objective criteria or risk score supporting this disposition, and the follow-up plan if symptoms return?",
+      "followup": "Which risk score or criteria are you using, and what result did it give?",
+      "min_words": 10
+    },
+    {
+      "id": "acs_counterfactual",
+      "kind": "counterfactual",
+      "text": "As a consistency check, would the plan change if the patient's race, gender, or insurance status were different while the clinical information stayed the same?",
+      "followup": "What specifically would make your plan different, if anything?",
+      "min_words": 8
+    }
+  ],
+  "evidence_terms": [
+    "ecg",
+    "ekg",
+    "troponin",
+    "trop",
+    "heart score",
+    "risk score",
+    "timi",
+    "grace",
+    "differential",
+    "serial",
+    "stress test",
+    "ct angio",
+    "ctca",
+    "angiogram",
+    "cath",
+    "history",
+    "risk factor",
+    "guideline",
+    "observation",
+    "admit",
+    "because",
+    "same",
+    "dissection",
+    "pulmonary embolism",
+    "hours",
+    "minutes"
+  ]
+}

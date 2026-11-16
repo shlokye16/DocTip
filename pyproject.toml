@@ -1,0 +1,14 @@
+[project]
+name = "sachacks-bias-check"
+version = "0.1.0"
+description = "Clinician reasoning check: counterfactual bias audit, Socratic voice bot, weight-space programming demo (synthetic data)"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "scikit-learn",
+    "openai",
+    "fastapi[standard]",
+]
+
+[tool.uv]
+package = false

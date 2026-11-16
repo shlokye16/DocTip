@@ -1,0 +1,103 @@
+{
+  "id": "sickle_cell",
+  "name": "Sickle cell disease",
+  "triggers": [
+    "sickle cell",
+    "sickle-cell",
+    "sickle",
+    "vaso-occlusive",
+    "vaso occlusive",
+    "pain crisis"
+  ],
+  "abbreviations": [
+    "SCD",
+    "VOC"
+  ],
+  "icd10_prefixes": [
+    "D57"
+  ],
+  "intro": "A quick pause here, if that's alright. Pain care in sickle cell disease can be affected by assumptions, so let's make sure the plan is grounded in this patient's current findings and documented preferences.",
+  "tip": "Sickle cell tip: patient-reported pain is the primary measure, and early analgesia matters.",
+  "guideline_note": "DRAFT, needs clinician review. NHLBI 2014 expert panel: treat vaso-occlusive pain as an emergency; patient self-report is the primary measure of pain; rapid analgesia (within 30 min of triage or 60 min of registration), individualized dosing, and frequent reassessment.",
+  "concern_patterns": [
+    {
+      "id": "drug_seeking_label",
+      "pattern": "drug[- ]?seek|malinger|frequent flyer|secondary gain|narcotic[- ]seek|\\baddict|exaggerat",
+      "question": "Could we separate the documented findings from impressions about drug-seeking or exaggeration, and review how an untreated pain crisis has been considered?",
+      "tip": "Tip: a drug-seeking impression isn't a clinical finding. In sickle cell crisis, patient-reported pain is the primary measure.",
+      "followup": "Could you point to a specific finding or documented history, rather than an impression?",
+      "min_words": 12
+    },
+    {
+      "id": "nonopioid_only",
+      "pattern": "\\b(?:ibuprofen|nsaids?|tylenol|acetaminophen|motrin)\\b.{0,60}\\b(?:only|just|alone|discharg\\w*|home)\\b|\\b(?:only|just|alone|discharg\\w*)\\b.{0,60}\\b(?:ibuprofen|nsaids?|tylenol|acetaminophen|motrin)\\b|\\bno (?:opioids?|narcotics?)\\b|\\bnon-?opioid\\b",
+      "question": "Would it help to compare the proposed pain approach with the patient's reported pain, individualized plan, and prior response?",
+      "tip": "Tip: check the patient's individualized care plan and past response before settling on non-opioid pain care.",
+      "followup": "What does this patient's own care plan or past response to treatment say?",
+      "min_words": 12
+    },
+    {
+      "id": "appearance_or_delay",
+      "pattern": "looks? comfortable|looking comfortable|doesn'?t look (?:like )?(?:he'?s |she'?s |they'?re )?in pain|normal vitals|vitals (?:are )?(?:normal|stable|fine)|pain out of proportion|hold off|wait for (?:labs|imaging)",
+      "question": "Since pain may not be reflected in vital signs or appearance, what else is informing the severity assessment, and when could analgesia begin?",
+      "tip": "Tip: sickle cell pain often doesn't show in vitals or appearance, and analgesia is time-sensitive (ideally within 30 minutes of triage).",
+      "followup": "How soon can the first dose go in, and when will you reassess?",
+      "min_words": 12
+    }
+  ],
+  "questions": [
+    {
+      "id": "sc_differential",
+      "kind": "base",
+      "text": "Could we briefly consider what else might explain these symptoms, including acute chest syndrome or infection, and which findings are guiding the current plan?",
+      "followup": "Can you name one or two specific findings that support that?",
+      "min_words": 12
+    },
+    {
+      "id": "sc_pain_plan",
+      "kind": "base",
+      "text": "Would you mind walking through how the pain plan aligns with this patient's individualized plan, including timing of the first dose and reassessment?",
+      "followup": "What dose and timing are you planning, and when will you reassess?",
+      "min_words": 10
+    },
+    {
+      "id": "sc_counterfactual",
+      "kind": "counterfactual",
+      "text": "As a quick consistency check, would the plan remain the same if the patient's race, gender, or insurance status were different but the history and findings stayed the same?",
+      "followup": "What specifically would make your plan different, if anything?",
+      "min_words": 8
+    }
+  ],
+  "evidence_terms": [
+    "acute chest",
+    "chest syndrome",
+    "differential",
+    "infection",
+    "hemoglobin",
+    "hgb",
+    "labs",
+    "vitals",
+    "pain score",
+    "individualized",
+    "care plan",
+    "crisis plan",
+    "opioid",
+    "hydroxyurea",
+    "dose",
+    "reassess",
+    "minutes",
+    "hour",
+    "history",
+    "guideline",
+    "protocol",
+    "same",
+    "because",
+    "fever",
+    "oxygen",
+    "imaging",
+    "x-ray",
+    "retic",
+    "baseline"
+  ],
+  "priority": 1
+}
